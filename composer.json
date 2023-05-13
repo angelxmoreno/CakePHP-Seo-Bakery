@@ -1,0 +1,24 @@
+{
+    "name": "angelxmoreno/seo-bakery",
+    "description": "A CakePHP plugin for all things SEO",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2",
+        "cakephp/cakephp": "4.4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5 || ^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SeoBakery\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SeoBakery\\Test\\": "tests/",
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
+        }
+    }
+}
