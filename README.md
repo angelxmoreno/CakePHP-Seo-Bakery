@@ -15,7 +15,6 @@ It offers:
 - Storage of metadata associated with any Entity
 - Configurable
 
-
 ## Development progress
 ### Phase one: MVP
 Phase one focuses on delivering the MVP of the plugin. It allows the ability to manage
@@ -53,9 +52,13 @@ The recommended way to install this package using composer is:
 ```
 composer require angelxmoreno/seo-bakery
 ```
-Then load the plugin via the CakePHP pluin shell:
+Next, load the plugin via the CakePHP pluin shell:
 ```
 bin/cake plugin load SeoBakery
+```
+Finally, create the plugin tables:
+```
+bin/cake migrations migrate -p SeoBakery
 ```
 
 ## Bugs & Feedback
