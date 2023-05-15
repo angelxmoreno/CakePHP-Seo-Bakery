@@ -11,6 +11,7 @@ use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Routing\Router;
+use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use SeoBakery\Model\Entity\SeoMetadata;
 
@@ -166,6 +167,11 @@ class SeoMetadataTable extends Table
         return $rules;
     }
 
+    public function create(array $data): SeoMetadata
+    {
+
+    }
+
     public function findOrCreateByRequest(array $data = [], ?ServerRequest $request = null): SeoMetadata
     {
         $request = $request ?? Router::getRequest();
@@ -194,11 +200,14 @@ class SeoMetadataTable extends Table
         return $this->patchEntity($entity, $data, $options);
     }
 
-    public function buildNameFromRequestParams(?ServerRequest $request = null): string
+    public function buildNameFromRouteParams(array $params): string
     {
-        $request = $request ?? Router::getRequest();
-        $controller = $request->getParam('controller', '');
-        $pass = $request->getParam('pass', []);
+        $prefix = Hash::get($params, 'prefix', '');
+        $plugin = Hash::get($params, 'plugin', '');
+        $controller = Hash::get($params, 'controller', '');
+        $action = Hash::get($params, 'action', '');
+        $pass = Hash::get($params, 'pass', []);
+        $passed = array_reduce($pass, fn($v1, $v2) => sprintf('%s:%s', $v1, $v2), '');
 
         /**
          * special treatment for the Pages controller
@@ -207,15 +216,26 @@ class SeoMetadataTable extends Table
             unset($pass[0]);
         }
 
-        $passed = array_reduce($pass, fn($v1, $v2) => sprintf('%s:%s', $v1, $v2), '');
-
         return sprintf(
             '%s-%s-%s-%s-%s',
-            $request->getParam('prefix', null),
-            $request->getParam('plugin', ''),
+            $prefix,
+            $plugin,
             $controller,
-            $request->getParam('action', ''),
+            $action,
             $passed
         );
+    }
+
+    public function buildNameFromRequestParams(?ServerRequest $request = null): string
+    {
+        $request = $request ?? Router::getRequest();
+
+        $prefix = $request->getParam('prefix', null);
+        $plugin = $request->getParam('plugin', '');
+        $controller = $request->getParam('controller', '');
+        $action = $request->getParam('action', '');
+        $pass = $request->getParam('pass', []);
+
+        return $this->buildNameFromRouteParams(compact('prefix', 'plugin', 'controller', 'action', 'pass'));
     }
 }
