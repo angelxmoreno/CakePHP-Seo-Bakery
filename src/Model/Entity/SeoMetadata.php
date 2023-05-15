@@ -3,28 +3,30 @@ declare(strict_types=1);
 
 namespace SeoBakery\Model\Entity;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
  * SeoMetadata Entity
  *
  * @property int $id
- * @property string $url
+ * @property string $name
+ * @property string $uri
  * @property string|null $canonical
- * @property string|null $entity_class
- * @property int|null $entity_identifier
+ * @property string|null $table_alias
+ * @property int|null $table_identifier
  * @property string|null $prefix
  * @property string|null $plugin
  * @property string|null $controller
  * @property string|null $action
- * @property string|null $passed
- * @property string|null $title
- * @property string|null $description
- * @property string|null $keywords
+ * @property array|null $passed
+ * @property string|null $meta_title
+ * @property string|null $meta_description
+ * @property array|null $meta_keywords
  * @property bool|null $noindex
  * @property bool|null $nofollow
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property FrozenTime|null $created
+ * @property FrozenTime|null $modified
  */
 class SeoMetadata extends Entity
 {
@@ -38,18 +40,19 @@ class SeoMetadata extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'url' => true,
+        'name' => true,
+        'uri' => true,
         'canonical' => true,
-        'entity_class' => true,
-        'entity_identifier' => true,
+        'table_alias' => true,
+        'table_identifier' => true,
         'prefix' => true,
         'plugin' => true,
         'controller' => true,
         'action' => true,
         'passed' => true,
-        'title' => true,
-        'description' => true,
-        'keywords' => true,
+        'meta_title' => true,
+        'meta_description' => true,
+        'meta_keywords' => true,
         'noindex' => true,
         'nofollow' => true,
         'created' => true,

@@ -3,29 +3,35 @@ declare(strict_types=1);
 
 namespace SeoBakery\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\Database\Schema\TableSchemaInterface;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Http\ServerRequest;
+use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Routing\Router;
 use Cake\Validation\Validator;
+use SeoBakery\Model\Entity\SeoMetadata;
 
 /**
  * SeoMetadata Model
  *
- * @method \SeoBakery\Model\Entity\SeoMetadata newEmptyEntity()
- * @method \SeoBakery\Model\Entity\SeoMetadata newEntity(array $data, array $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata[] newEntities(array $data, array $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata get($primaryKey, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \SeoBakery\Model\Entity\SeoMetadata[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method SeoMetadata newEmptyEntity()
+ * @method SeoMetadata newEntity(array $data, array $options = [])
+ * @method SeoMetadata[] newEntities(array $data, array $options = [])
+ * @method SeoMetadata get($primaryKey, $options = [])
+ * @method SeoMetadata findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method SeoMetadata patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method SeoMetadata[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method SeoMetadata|false save(EntityInterface $entity, $options = [])
+ * @method SeoMetadata saveOrFail(EntityInterface $entity, $options = [])
+ * @method SeoMetadata[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method SeoMetadata[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method SeoMetadata[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method SeoMetadata[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @mixin TimestampBehavior
  */
 class SeoMetadataTable extends Table
 {
@@ -40,25 +46,44 @@ class SeoMetadataTable extends Table
         parent::initialize($config);
 
         $this->setTable('seo_metadata');
-        $this->setDisplayField('url');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
     }
 
     /**
+     * @param TableSchemaInterface $schema
+     * @return TableSchemaInterface
+     */
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
+    {
+        $schema->setColumnType('passed', 'json');
+        $schema->setColumnType('meta_keywords', 'json');
+
+        return $schema;
+    }
+
+    /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('url')
-            ->maxLength('url', 500)
-            ->notEmptyString('url')
-            ->add('url', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->scalar('name')
+            ->maxLength('name', 500)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name')
+            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
+            ->scalar('uri')
+            ->maxLength('uri', 500)
+            ->notEmptyString('uri')
+            ->add('uri', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('canonical')
@@ -67,13 +92,13 @@ class SeoMetadataTable extends Table
             ->add('canonical', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->scalar('entity_class')
-            ->maxLength('entity_class', 100)
-            ->allowEmptyString('entity_class');
+            ->scalar('table_alias')
+            ->maxLength('table_alias', 100)
+            ->allowEmptyString('table_alias');
 
         $validator
-            ->nonNegativeInteger('entity_identifier')
-            ->allowEmptyString('entity_identifier');
+            ->nonNegativeInteger('table_identifier')
+            ->allowEmptyString('table_identifier');
 
         $validator
             ->scalar('prefix')
@@ -96,23 +121,22 @@ class SeoMetadataTable extends Table
             ->allowEmptyString('action');
 
         $validator
-            ->scalar('passed')
-            ->maxLength('passed', 200)
-            ->allowEmptyString('passed');
+            ->isArray('passed')
+            ->allowEmptyArray('passed');
 
         $validator
-            ->scalar('title')
-            ->maxLength('title', 200)
-            ->allowEmptyString('title');
+            ->scalar('meta_title')
+            ->maxLength('meta_title', 200)
+            ->allowEmptyString('meta_title');
 
         $validator
-            ->scalar('description')
-            ->maxLength('description', 200)
-            ->allowEmptyString('description');
+            ->scalar('meta_description')
+            ->maxLength('meta_description', 200)
+            ->allowEmptyString('meta_description');
 
         $validator
-            ->scalar('keywords')
-            ->allowEmptyString('keywords');
+            ->isArray('meta_keywords')
+            ->allowEmptyArray('meta_keywords');
 
         $validator
             ->boolean('noindex')
@@ -129,14 +153,69 @@ class SeoMetadataTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['url']), ['errorField' => 'url']);
+        $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
+        $rules->add($rules->isUnique(['uri']), ['errorField' => 'uri']);
         $rules->add($rules->isUnique(['canonical'], ['allowMultipleNulls' => true]), ['errorField' => 'canonical']);
+        $rules->add($rules->isUnique(['table_alias', 'table_identifier', 'action'], ['allowMultipleNulls' => true]), ['errorField' => 'table_alias']);
 
         return $rules;
+    }
+
+    public function findOrCreateByRequest(array $data = [], ?ServerRequest $request = null): SeoMetadata
+    {
+        $request = $request ?? Router::getRequest();
+        $name = $this->buildNameFromRequestParams($request);
+        $knownVars = [
+            'name' => $name,
+            'prefix' => $request->getParam('prefix'),
+            'plugin' => $request->getParam('plugin'),
+            'controller' => $request->getParam('controller'),
+            'action' => $request->getParam('action'),
+            'passed' => $request->getParam('pass'),
+            'uri' => $request->getRequestTarget(),
+        ];
+        $seoMetadata = $this->findOrCreate(compact('name'));
+        $seoMetadata = $this->patchEntityNulls($seoMetadata, array_merge($data, $knownVars), []);
+        $this->saveOrFail($seoMetadata);
+
+        return $seoMetadata;
+    }
+
+    public function patchEntityNulls(SeoMetadata $entity, array $data, array $options = []): SeoMetadata
+    {
+        $data = array_merge($data, $entity->toArray());
+        unset($data['created']);
+        unset($data['modified']);
+        return $this->patchEntity($entity, $data, $options);
+    }
+
+    public function buildNameFromRequestParams(?ServerRequest $request = null): string
+    {
+        $request = $request ?? Router::getRequest();
+        $controller = $request->getParam('controller', '');
+        $pass = $request->getParam('pass', []);
+
+        /**
+         * special treatment for the Pages controller
+         */
+        if ($controller === 'Pages' && $pass[0] === 'display') {
+            unset($pass[0]);
+        }
+
+        $passed = array_reduce($pass, fn($v1, $v2) => sprintf('%s:%s', $v1, $v2), '');
+
+        return sprintf(
+            '%s-%s-%s-%s-%s',
+            $request->getParam('prefix', null),
+            $request->getParam('plugin', ''),
+            $controller,
+            $request->getParam('action', ''),
+            $passed
+        );
     }
 }

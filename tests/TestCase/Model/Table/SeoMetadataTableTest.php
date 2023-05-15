@@ -14,7 +14,7 @@ class SeoMetadataTableTest extends TestCase
     /**
      * Test subject
      *
-     * @var \SeoBakery\Model\Table\SeoMetadataTable
+     * @var SeoMetadataTable
      */
     protected $SeoMetadata;
 
