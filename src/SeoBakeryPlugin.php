@@ -15,6 +15,8 @@ use Cake\Routing\RouteBuilder;
  */
 class SeoBakeryPlugin extends BasePlugin
 {
+    public const NAME = 'SeoBakery';
+
     /**
      * Load all the plugin configuration and bootstrap logic.
      *
@@ -26,6 +28,7 @@ class SeoBakeryPlugin extends BasePlugin
      */
     public function bootstrap(PluginApplicationInterface $app): void
     {
+        parent::bootstrap($app);
     }
 
     /**
