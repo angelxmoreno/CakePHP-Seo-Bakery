@@ -72,4 +72,48 @@ class SeoMetadataTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test findOrCreateByRequest method
+     *
+     * @return void
+     * @uses \SeoBakery\Model\Table\SeoMetadataTable::findOrCreateByRequest()
+     */
+    public function testFindOrCreateByRequest(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test patchEntityNulls method
+     *
+     * @return void
+     * @uses \SeoBakery\Model\Table\SeoMetadataTable::patchEntityNulls()
+     */
+    public function testPatchEntityNulls(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildNameFromRouteParams method
+     *
+     * @return void
+     * @uses \SeoBakery\Model\Table\SeoMetadataTable::buildNameFromRouteParams()
+     */
+    public function testBuildNameFromRouteParams(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildNameFromRequestParams method
+     *
+     * @return void
+     * @uses \SeoBakery\Model\Table\SeoMetadataTable::buildNameFromRequestParams()
+     */
+    public function testBuildNameFromRequestParams(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

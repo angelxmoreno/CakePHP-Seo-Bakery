@@ -61,6 +61,7 @@ class SeoMetadataTable extends Table
     {
         $schema->setColumnType('passed', 'json');
         $schema->setColumnType('meta_keywords', 'json');
+        $schema->setColumnType('meta_keywords_fallback', 'json');
 
         return $schema;
     }
@@ -75,9 +76,9 @@ class SeoMetadataTable extends Table
     {
         $validator
             ->scalar('name')
-            ->maxLength('name', 500)
-            ->requirePresence('name', 'create')
-            ->notEmptyString('name')
+            ->maxLength('name', 500, 'Name is too long')
+            ->requirePresence('name', 'create', 'Name is required')
+            ->notEmptyString('name', 'Name can not be an empty string')
             ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
@@ -131,13 +132,27 @@ class SeoMetadataTable extends Table
             ->allowEmptyString('meta_title');
 
         $validator
+            ->scalar('meta_title_fallback')
+            ->maxLength('meta_title_fallback', 200)
+            ->allowEmptyString('meta_title_fallback');
+
+        $validator
             ->scalar('meta_description')
             ->maxLength('meta_description', 200)
             ->allowEmptyString('meta_description');
 
         $validator
+            ->scalar('meta_description_fallback')
+            ->maxLength('meta_description_fallback', 200)
+            ->allowEmptyString('meta_description_fallback');
+
+        $validator
             ->isArray('meta_keywords')
             ->allowEmptyArray('meta_keywords');
+
+        $validator
+            ->isArray('meta_keywords_fallback')
+            ->allowEmptyString('meta_keywords_fallback');
 
         $validator
             ->boolean('noindex')
@@ -167,11 +182,12 @@ class SeoMetadataTable extends Table
         return $rules;
     }
 
-    public function create(array $data): SeoMetadata
-    {
-
-    }
-
+    /**
+     * @param array $data
+     * @param ServerRequest|null $request
+     * @return SeoMetadata
+     * @deprecated
+     */
     public function findOrCreateByRequest(array $data = [], ?ServerRequest $request = null): SeoMetadata
     {
         $request = $request ?? Router::getRequest();
@@ -192,6 +208,13 @@ class SeoMetadataTable extends Table
         return $seoMetadata;
     }
 
+    /**
+     * @param SeoMetadata $entity
+     * @param array $data
+     * @param array $options
+     * @return SeoMetadata
+     * @deprecated
+     */
     public function patchEntityNulls(SeoMetadata $entity, array $data, array $options = []): SeoMetadata
     {
         $data = array_merge($data, $entity->toArray());
@@ -200,6 +223,11 @@ class SeoMetadataTable extends Table
         return $this->patchEntity($entity, $data, $options);
     }
 
+    /**
+     * @param array $params
+     * @return string
+     * @deprecated
+     */
     public function buildNameFromRouteParams(array $params): string
     {
         $prefix = Hash::get($params, 'prefix', '');
@@ -226,6 +254,11 @@ class SeoMetadataTable extends Table
         );
     }
 
+    /**
+     * @param ServerRequest|null $request
+     * @return string
+     * @deprecated
+     */
     public function buildNameFromRequestParams(?ServerRequest $request = null): string
     {
         $request = $request ?? Router::getRequest();

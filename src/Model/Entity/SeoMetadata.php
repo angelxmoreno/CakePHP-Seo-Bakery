@@ -21,8 +21,11 @@ use Cake\ORM\Entity;
  * @property string|null $action
  * @property array|null $passed
  * @property string|null $meta_title
+ * @property string|null $meta_title_fallback
  * @property string|null $meta_description
+ * @property string|null $meta_description_fallback
  * @property array|null $meta_keywords
+ * @property array|null $meta_keywords_fallback
  * @property bool|null $noindex
  * @property bool|null $nofollow
  * @property FrozenTime|null $created
@@ -51,11 +54,29 @@ class SeoMetadata extends Entity
         'action' => true,
         'passed' => true,
         'meta_title' => true,
+        'meta_title_fallback' => true,
         'meta_description' => true,
+        'meta_description_fallback' => true,
         'meta_keywords' => true,
+        'meta_keywords_fallback' => true,
         'noindex' => true,
         'nofollow' => true,
         'created' => true,
         'modified' => true,
     ];
+
+    protected function _getMetaTitle(?string $value): ?string
+    {
+        return $value ?? $this->meta_title_fallback;
+    }
+
+    protected function _getMetaDescription(?string $value): ?string
+    {
+        return $value ?? $this->meta_description_fallback;
+    }
+
+    protected function _getMetaKeywords(?array $value): ?array
+    {
+        return $value ?? $this->meta_keywords_fallback;
+    }
 }
