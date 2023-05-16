@@ -8,10 +8,6 @@ use SeoBakery\SeoBakeryPlugin;
 
 $configDefaults = [
     'behaviorModels' => [],
-    'actions' => [
-        'view',
-        'display' => ['table' => false],
-    ],
 ];
 
 $config = Configure::read(SeoBakeryPlugin::NAME, []);
