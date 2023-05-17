@@ -10,6 +10,9 @@ namespace SeoBakery\Shared;
 class StopWords
 {
     public const STOP_WORDS = [
+        // added for plugins start
+        '&',
+        // added for plugins end
         'x', 'y', 'your', 'yours', 'yourself', 'yourselves', 'you', 'yond', 'yonder', 'yon', 'ye', 'yet', 'z', 'zillion',
         'j', 'u', 'umpteen', 'usually', 'us', 'username', 'uponed', 'upons', 'uponing', 'upon', 'ups', 'upping', 'upped',
         'up', 'unto', 'until', 'unless', 'unlike', 'unliker', 'unlikest', 'under', 'underneath', 'use', 'used', 'usedest',

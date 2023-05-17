@@ -16,13 +16,13 @@ class SimpleMetaKeywordsBuilder extends SimpleMetaBuilderBase
 
         $descriptionBuilder = new SimpleMetaDescriptionBuilder($entity, $action);
         $content = $content . ' ' . $descriptionBuilder($entity, $action);
-        $contentArray = explode($content, ' ');
+
+        $contentArray = explode(' ', $content);
         $uniqueContentArray = array_unique($contentArray);
         $uniqueContentArray = array_diff($uniqueContentArray, StopWords::STOP_WORDS);
-
         $wordCount = [];
         foreach ($uniqueContentArray as $word) {
-            $wordCount[$word] = str_word_count($content, 1, $word);
+            $wordCount[$word] = substr_count($content, $word);
         }
         arsort($wordCount, SORT_NUMERIC);
         $wordCount = array_splice($wordCount, 0, self::$limit);
