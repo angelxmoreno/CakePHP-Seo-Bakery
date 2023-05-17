@@ -25,7 +25,12 @@ class Initial extends AbstractMigration
                 'signed' => false,
             ])
             ->addPrimaryKey(['id'])
-            ->addColumn('url', 'string', [
+            ->addColumn('name', 'string', [
+                'default' => null,
+                'limit' => 500,
+                'null' => false,
+            ])
+            ->addColumn('uri', 'string', [
                 'default' => '',
                 'limit' => 500,
                 'null' => false,
@@ -35,12 +40,12 @@ class Initial extends AbstractMigration
                 'limit' => 500,
                 'null' => true,
             ])
-            ->addColumn('entity_class', 'string', [
+            ->addColumn('table_alias', 'string', [
                 'default' => null,
                 'limit' => 100,
                 'null' => true,
             ])
-            ->addColumn('entity_identifier', 'integer', [
+            ->addColumn('table_identifier', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
@@ -66,33 +71,48 @@ class Initial extends AbstractMigration
                 'limit' => 100,
                 'null' => true,
             ])
-            ->addColumn('passed', 'string', [
+            ->addColumn('passed', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('meta_title', 'string', [
                 'default' => null,
                 'limit' => 200,
                 'null' => true,
             ])
-            ->addColumn('title', 'string', [
+            ->addColumn('meta_title_fallback', 'string', [
                 'default' => null,
                 'limit' => 200,
                 'null' => true,
             ])
-            ->addColumn('description', 'string', [
+            ->addColumn('meta_description', 'string', [
                 'default' => null,
                 'limit' => 200,
                 'null' => true,
             ])
-            ->addColumn('keywords', 'text', [
+            ->addColumn('meta_description_fallback', 'string', [
+                'default' => null,
+                'limit' => 200,
+                'null' => true,
+            ])
+            ->addColumn('meta_keywords', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('meta_keywords_fallback', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
             ->addColumn('noindex', 'boolean', [
-                'default' => false,
+                'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('nofollow', 'boolean', [
-                'default' => false,
+                'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
@@ -108,7 +128,13 @@ class Initial extends AbstractMigration
             ])
             ->addIndex(
                 [
-                    'url',
+                    'name',
+                ],
+                ['unique' => true]
+            )
+            ->addIndex(
+                [
+                    'uri',
                 ],
                 ['unique' => true]
             )
@@ -120,12 +146,19 @@ class Initial extends AbstractMigration
             )
             ->addIndex(
                 [
-                    'entity_class',
+                    'table_alias',
                 ]
             )
             ->addIndex(
                 [
-                    'entity_identifier',
+                    'table_identifier',
+                ]
+            )
+            ->addIndex(
+                [
+                    'table_alias',
+                    'table_identifier',
+                    'action',
                 ]
             )
             ->create();

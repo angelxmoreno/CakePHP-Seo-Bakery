@@ -11,6 +11,13 @@ use Cake\TestSuite\Fixture\TestFixture;
 class SeoMetadataFixture extends TestFixture
 {
     /**
+     * Import
+     *
+     * @var array<string, mixed>
+     */
+    public $import = ['table' => 'seo_metadata'];
+
+    /**
      * Init method
      *
      * @return void
@@ -29,17 +36,17 @@ class SeoMetadataFixture extends TestFixture
                 'plugin' => 'Lorem ipsum dolor sit amet',
                 'controller' => 'Lorem ipsum dolor sit amet',
                 'action' => 'Lorem ipsum dolor sit amet',
-                'passed' => ['0'],
+                'passed' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'meta_title' => 'Lorem ipsum dolor sit amet',
                 'meta_title_fallback' => 'Lorem ipsum dolor sit amet',
                 'meta_description' => 'Lorem ipsum dolor sit amet',
                 'meta_description_fallback' => 'Lorem ipsum dolor sit amet',
-                'meta_keywords' => explode(' ', 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.'),
-                'meta_keywords_fallback' => explode(' ', 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.'),
+                'meta_keywords' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+                'meta_keywords_fallback' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'noindex' => 1,
                 'nofollow' => 1,
-                'created' => '2023-05-16 21:47:12',
-                'modified' => '2023-05-16 21:47:12',
+                'created' => '2023-05-17 20:54:45',
+                'modified' => '2023-05-17 20:54:45',
             ],
         ];
         parent::init();
