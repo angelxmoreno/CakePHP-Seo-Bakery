@@ -3,12 +3,9 @@ declare(strict_types=1);
 
 namespace SeoBakery\View\Helper;
 
-use Cake\Core\Configure;
 use Cake\View\Helper;
-use Cake\View\View;
 use SeoBakery\Model\Entity\SeoMetadata;
-use SeoBakery\SeoBakeryPlugin;
-use SeoBakery\Shared\SeoMetadataAware;
+use SeoBakery\Shared\SeoMetadataTableAware;
 
 /**
  * Metadata helper
@@ -17,7 +14,7 @@ use SeoBakery\Shared\SeoMetadataAware;
  */
 class MetadataHelper extends Helper
 {
-    use SeoMetadataAware;
+    use SeoMetadataTableAware;
 
     /**
      * Default configuration.
@@ -28,64 +25,51 @@ class MetadataHelper extends Helper
     protected $helpers = ['Html'];
     protected ?SeoMetadata $seoMetadata;
 
-    public function __construct(View $view, array $config = [])
-    {
-        $config = array_merge(Configure::read(SeoBakeryPlugin::NAME), $config);
-        parent::__construct($view, $config);
-    }
-
     public function initialize(array $config): void
     {
         parent::initialize($config);
         $this->seoMetadata = $this->getView()->get('seoMetadata');
     }
 
-    public function getSeoMetadata(): SeoMetadata
-    {
-        if (!$this->seoMetadata) {
-            $this->seoMetadata = $this->createMetadataFromRequest();
-        }
-
-        return $this->seoMetadata;
-    }
-
     public function afterRender()
     {
         if ($this->seoMetadata) {
-            if ($this->seoMetadata->meta_title) {
-                $this->getView()->assign('title', $this->seoMetadata->meta_title);
-            }
-            $dict = [
-                'description' => ['meta_description', $this->seoMetadata->meta_description],
-                'keywords' => ['meta_keywords', implode(',', $this->seoMetadata->meta_keywords ?? [])],
-            ];
-            foreach ($dict as $metaName => $args) {
-                [$k, $v] = $args;
-                if ($this->seoMetadata->has($k)) {
-                    $this->Html->meta($metaName, $v, ['block' => true]);
-                }
-            }
-            if ($this->seoMetadata->isDirty()) {
-                $this->getSeoMetadataTable()->findOrCreateByRequest($this->seoMetadata->toArray());
-            }
+            $this->createMetaTitle();
+            $this->createMetaDescription();
+            $this->createMetaKeywords();
+            $this->createMetaRobots();
         }
     }
 
-    public function setTitle(string $value): self
+    protected function createMetaTitle()
     {
-        $this->getSeoMetadata()->set('meta_title', $value);
-        return $this;
+        if ($this->seoMetadata->meta_title) {
+            $this->getView()->assign('title', $this->seoMetadata->meta_title);
+        }
     }
 
-    public function setDescription(string $value): self
+    protected function createMetaDescription()
     {
-        $this->getSeoMetadata()->set('meta_description', $value);
-        return $this;
+        $this->Html->meta('description', $this->seoMetadata->meta_description, ['block' => true]);
     }
 
-    public function setKeywords(array $value): self
+    protected function createMetaKeywords()
     {
-        $this->getSeoMetadata()->set('meta_keywords', $value);
-        return $this;
+        $this->Html->meta('keywords', $this->seoMetadata->meta_keywords, ['block' => true]);
+    }
+
+    protected function createMetaRobots()
+    {
+        $content = '';
+        if ($this->seoMetadata->nofollow && $this->seoMetadata->noindex) {
+            $content = 'none';
+        } elseif (!$this->seoMetadata->nofollow && !$this->seoMetadata->noindex) {
+            $content = 'all';
+        } elseif ($this->seoMetadata->nofollow && !$this->seoMetadata->noindex) {
+            $content = 'nofollow';
+        } elseif (!$this->seoMetadata->nofollow && $this->seoMetadata->noindex) {
+            $content = 'noindex';
+        }
+        $this->Html->meta('robots', $content, ['block' => true]);
     }
 }

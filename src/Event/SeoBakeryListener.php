@@ -6,7 +6,6 @@ use Cake\Controller\Controller;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\Table;
-use Cake\Utility\Hash;
 use Exception;
 
 class SeoBakeryListener implements EventListenerInterface
@@ -40,7 +39,7 @@ class SeoBakeryListener implements EventListenerInterface
         $table = $event->getSubject();
         $alias = $table->getAlias();
 
-        if (in_array($alias, array_keys($this->getConfig('behaviorConfigs')))) {
+        if (array_key_exists($alias, $this->getConfig('behaviorConfigs'))) {
             $table->addBehavior('SeoBakery.Metadata', $this->getConfig('behaviorConfigs')[$alias]);
         }
     }
@@ -54,8 +53,8 @@ class SeoBakeryListener implements EventListenerInterface
         $controller = $event->getSubject();
         $name = $controller->getName();
 
-        if (in_array($name, Hash::extract($this->getConfig('componentConfigs'), '{s}.controller'))) {
-            $controller->loadComponent('SeoBakery.Metadata');
+        if (array_key_exists($name, $this->getConfig('componentConfigs'))) {
+            $controller->loadComponent('SeoBakery.Metadata', $this->getConfig('componentConfigs')[$name]);
         }
     }
 }

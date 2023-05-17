@@ -31,7 +31,7 @@ class MetadataBehavior extends Behavior
         'plugin' => null,
         'controller' => null,
         'actions' => ['view'],
-        'identifierFunc' => null,
+        'identifierFunc' => 0,
         'buildTitleFunc' => null,
         'buildDescriptionFunc' => null,
         'buildKeywordsFunc' => null,
@@ -96,12 +96,12 @@ class MetadataBehavior extends Behavior
 
         $lookUp = [
             'table_alias' => $this->table()->getAlias(),
-            'prefix' => $request->getParam('prefix'),
-            'plugin' => $request->getParam('plugin'),
+            'prefix IS' => $request->getParam('prefix'),
+            'plugin IS' => $request->getParam('plugin'),
             'controller' => $request->getParam('controller'),
             'action' => $action,
         ];
-        $exists = $this->table()->exists($lookUp);
+        $exists = $this->getSeoMetadataTable()->exists($lookUp);
         if (!$exists) return null;
         $identifierFunc = $this->getConfig('identifierFunc');
 
@@ -110,7 +110,6 @@ class MetadataBehavior extends Behavior
         } else {
             $tableIdentifier = $pass[$identifierFunc];
         }
-
         $lookUp['table_identifier'] = $tableIdentifier;
         return $this->getSeoMetadataTable()->find()->where($lookUp)->first();
     }

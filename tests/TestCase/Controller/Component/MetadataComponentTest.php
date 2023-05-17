@@ -17,7 +17,7 @@ class MetadataComponentTest extends TestCase
      *
      * @var MetadataComponent
      */
-    protected $Metadata;
+    protected MetadataComponent $Metadata;
 
     /**
      * setUp method
