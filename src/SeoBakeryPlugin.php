@@ -9,6 +9,7 @@ use Cake\Core\ContainerInterface;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
+use Cake\Utility\Hash;
 
 /**
  * Plugin for SeoBakery
@@ -16,6 +17,35 @@ use Cake\Routing\RouteBuilder;
 class SeoBakeryPlugin extends BasePlugin
 {
     public const NAME = 'SeoBakery';
+
+    public static function buildBehaviorConfigs(array $rawConfig): array
+    {
+        $models = [];
+        foreach ($rawConfig['behaviorModels'] as $k => $v) {
+            $alias = is_string($v) ? $v : $k;
+            $config = is_string($v) ? [
+                'prefix' => null,
+                'plugin' => null,
+                'controller' => $alias,
+                'actions' => ['view'],
+            ] : $v;
+
+            $models[$alias] = $config;
+        }
+
+        return $models;
+    }
+
+    public static function buildComponentConfigs(array $behaviorConfigs): array
+    {
+        $controllers = [];
+        foreach ($behaviorConfigs as $k => $v) {
+            $name = Hash::get($v, 'controller');
+            $controllers[$name] = $v;
+            $controllers[$name]['model'] = $k;
+        }
+        return $controllers;
+    }
 
     /**
      * Load all the plugin configuration and bootstrap logic.
