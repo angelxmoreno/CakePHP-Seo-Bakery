@@ -2,9 +2,12 @@
 
 namespace SeoBakery\Event;
 
+use Cake\Controller\Controller;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\Table;
+use Cake\Utility\Hash;
+use Exception;
 
 class SeoBakeryListener implements EventListenerInterface
 {
@@ -13,6 +16,7 @@ class SeoBakeryListener implements EventListenerInterface
     protected $_config = [];
     protected array $_defaultConfig = [];
     protected array $models = [];
+    protected array $controllers = [];
 
     /**
      * @param array $config
@@ -20,13 +24,13 @@ class SeoBakeryListener implements EventListenerInterface
     public function __construct(array $config)
     {
         $this->setConfig($config);
-        $this->models = $this->buildBehaviorModels();
     }
 
     public function implementedEvents(): array
     {
         return [
             'Model.initialize' => 'modelInitializeEvent',
+            'Controller.initialize' => 'controllerInitializeEvent',
         ];
     }
 
@@ -36,22 +40,22 @@ class SeoBakeryListener implements EventListenerInterface
         $table = $event->getSubject();
         $alias = $table->getAlias();
 
-        if (in_array($alias, array_keys($this->models))) {
-            $table->addBehavior('SeoBakery.Metadata', $this->models[$alias]);
+        if (in_array($alias, array_keys($this->getConfig('behaviorConfigs')))) {
+            $table->addBehavior('SeoBakery.Metadata', $this->getConfig('behaviorConfigs')[$alias]);
         }
     }
 
-    protected function buildBehaviorModels(): array
+    /**
+     * @throws Exception
+     */
+    public function controllerInitializeEvent($event): void
     {
-        $models = [];
-        $behaviorModels = $this->getConfig('behaviorModels');
-        foreach ($behaviorModels as $k => $v) {
-            $alias = is_string($v) ? $v : $k;
-            $config = is_string($v) ? [] : $v;
+        /** @var Controller $controller */
+        $controller = $event->getSubject();
+        $name = $controller->getName();
 
-            $models[$alias] = $config;
+        if (in_array($name, Hash::extract($this->getConfig('componentConfigs'), '{s}.controller'))) {
+            $controller->loadComponent('SeoBakery.Metadata');
         }
-
-        return $models;
     }
 }

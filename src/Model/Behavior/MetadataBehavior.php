@@ -6,19 +6,20 @@ namespace SeoBakery\Model\Behavior;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Table;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use SeoBakery\Builder\SimpleMetaDescriptionBuilder;
+use SeoBakery\Builder\SimpleMetaKeywordsBuilder;
 use SeoBakery\Model\Entity\SeoMetadata;
-use SeoBakery\Model\Table\SeoMetadataTable;
+use SeoBakery\Shared\SeoMetadataTableAware;
 
 /**
  * Metadata behavior
  */
 class MetadataBehavior extends Behavior
 {
-    use LocatorAwareTrait;
+    use SeoMetadataTableAware;
 
     /**
      * Default configuration.
@@ -30,13 +31,30 @@ class MetadataBehavior extends Behavior
         'plugin' => null,
         'controller' => null,
         'actions' => ['view'],
-        'identifierFunc' => 0,
+        'identifierFunc' => null,
         'buildTitleFunc' => null,
         'buildDescriptionFunc' => null,
         'buildKeywordsFunc' => null,
         'buildShouldIndexFunc' => null,
         'buildShouldFollowFunc' => null,
     ];
+
+    /**
+     * Constructor
+     *
+     * Merges config with the default and store in the config property
+     *
+     * @param Table $table The table this behavior is attached to.
+     * @param array<string, mixed> $config The config for this behavior.
+     */
+    public function __construct(Table $table, array $config = [])
+    {
+        $this->_defaultConfig = array_merge($this->_defaultConfig, [
+            'buildDescriptionFunc' => new SimpleMetaDescriptionBuilder(),
+            'buildKeywordsFunc' => new SimpleMetaKeywordsBuilder(),
+        ]);
+        parent::__construct($table, $config);
+    }
 
     /**
      * @param EventInterface $event
@@ -108,7 +126,7 @@ class MetadataBehavior extends Behavior
             'action' => $action,
             'meta_title_fallback' => $this->buildMetaTitle($entity, $action),
             'meta_description_fallback' => $this->buildMetaDescription($entity, $action),
-            'meta_tags_fallback' => $this->buildMetaKeywords($entity, $action),
+            'meta_keywords_fallback' => $this->buildMetaKeywords($entity, $action),
             'noindex' => !$this->buildShouldIndex($entity, $action),
             'nofollow' => !$this->buildShouldFollow($entity, $action),
         ];
@@ -159,13 +177,5 @@ class MetadataBehavior extends Behavior
         if ($method && is_callable($method)) return (bool)$method($entity, $action);
         if ($method && is_bool($method)) return $method;
         return $action === 'view';
-    }
-
-    /**
-     * @return SeoMetadataTable|Table
-     */
-    protected function getSeoMetadataTable(): SeoMetadataTable
-    {
-        return $this->fetchTable(SeoMetadataTable::class);
     }
 }

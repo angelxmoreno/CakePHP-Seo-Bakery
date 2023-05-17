@@ -12,6 +12,8 @@ $configDefaults = [
 
 $config = Configure::read(SeoBakeryPlugin::NAME, []);
 $config = array_merge($configDefaults, $config);
+$config['behaviorConfigs'] = SeoBakeryPlugin::buildBehaviorConfigs($config);
+$config['componentConfigs'] = SeoBakeryPlugin::buildComponentConfigs($config['behaviorConfigs']);
 Configure::write(SeoBakeryPlugin::NAME, $config);
 $listener = new SeoBakeryListener($config);
 EventManager::instance()->on($listener);
