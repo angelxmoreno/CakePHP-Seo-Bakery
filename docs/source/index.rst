@@ -13,3 +13,4 @@ Welcome to SeoBakery's documentation!
    installation
    quickstart
    configuration
+   classes
