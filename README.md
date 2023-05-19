@@ -1,5 +1,5 @@
 # SeoBakery plugin for CakePHP
-Plugin is still in development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
+Plugin is currently in phase 2 of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
 
 ## Another CakePHP SEO Plugin? Why?
 During the years I've come across a few CakePHP SEO plugins that served as amazing drop-in solutions for MVP apps. However,
@@ -11,6 +11,7 @@ It offers:
 - Component - for fetching stored metadata
 - ViewHelper - for rendering metadata
 - Behavior - for adding templated metadata as a fallback
+- Command - for back filling metadata for already existing entities
 - ChatGPT suggestions to auto-generate metadata
 - Storage of metadata associated with any Entity
 - Configurable
@@ -23,21 +24,27 @@ Phase one focuses on delivering the MVP of the plugin. It allows the ability to 
 3. canonical urls with 301 redirects
 4. providing metadata fallbacks via behavior
 #### Todos
-- [ ] Create Table classes to store data
-- [ ] Create Behavior to attach model entities
-- [ ] Create component to set/load vars
-- [ ] Create Helper to set/render vars
+- [X] Create Table classes to store data
+- [X] Create Behavior to attach model entities
+- [X] Create component to set/load vars
+- [X] Create Helper to set/render vars
+- [X] Create command to back-fill metadata
 
 ### Phase 2: Dashboard
 #### Todos
+- [ ] Solve for Pages controller
+- [ ] Solve for Index views
+
+### Phase 3: Dashboard
+#### Todos
 - [ ] Create Controller/Views for the dashboard
 
-### Phase 3: Open Schema & Twitter Cards
+### Phase 4: Open Schema & Twitter Cards
 #### Todos
 - [ ] Add open schema data
 - [ ] Add Twitter cards data
 
-### Phase 4: Robots.txt & Sitemaps
+### Phase 5: Robots.txt & Sitemaps
 - [ ] Create Robots controller
 - [ ] Behavior for creating sitemap entries
 - [ ] Create Sitemaps controller
@@ -60,6 +67,8 @@ Finally, create the plugin tables:
 ```
 bin/cake migrations migrate -p SeoBakery
 ```
+## Documentation
+see https://seobakery.readthedocs.io/
 
 ## Bugs & Feedback
 http://github.com/angelxmoreno/SeoBakery/issues
