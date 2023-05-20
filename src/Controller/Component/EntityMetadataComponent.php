@@ -11,9 +11,9 @@ use SeoBakery\Model\Behavior\MetadataBehavior;
 use SeoBakery\Shared\SeoMetadataTableAware;
 
 /**
- * Metadata component
+ * EntityMetadata component
  */
-class MetadataComponent extends Component
+class EntityMetadataComponent extends Component
 {
     use SeoMetadataTableAware;
 
@@ -24,14 +24,16 @@ class MetadataComponent extends Component
      */
     protected $_defaultConfig = [];
 
-    public function startup(EventInterface $event)
+    public function beforeRender(EventInterface $event)
     {
-        if ($this->isQualifyingRequest()) {
+        $seoMetadata = null;
+        $isQualifyingRequest = $this->isQualifyingRequest();
+        if ($isQualifyingRequest && $this->getConfig('model')) {
             $seoMetadata = $this->getBehaviorTable()->fetchMetaDataByRequest([
                 'request' => $this->getRequest(),
             ]);
-            if ($seoMetadata) $this->getController()->set(compact('seoMetadata'));
         }
+        if ($seoMetadata) $this->getController()->set(compact('seoMetadata'));
     }
 
     protected function isQualifyingRequest(): bool
