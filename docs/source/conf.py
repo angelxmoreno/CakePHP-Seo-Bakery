@@ -14,31 +14,14 @@ author = 'Angel S. Moreno'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = []
-
 templates_path = ['_templates']
+html_static_path = ['_static']
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# html_theme = 'alabaster'
-html_static_path = ['_static']
+import sphinx_rtd_theme
+html_theme = 'sphinx_rtd_theme'
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-# Guzzle theme
-extensions = [
-    'guzzle_sphinx_theme'
-]
-import guzzle_sphinx_theme
-
-html_theme_path = guzzle_sphinx_theme.html_theme_path()
-html_theme = 'guzzle_sphinx_theme'
-html_sidebars = {'**': ['logo-text.html', 'globaltoc.html', 'searchbox.html']}
-# Register the theme as an extension to generate a sitemap.xml
-extensions.append("guzzle_sphinx_theme")
-
-# Guzzle theme options (see theme.conf for more information)
-html_theme_options = {
-    # Set the name of the project to appear in the sidebar
-    "project_nav_name": "SeoBakery",
-}
