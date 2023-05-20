@@ -1,4 +1,0 @@
-MetadataComponent
-*****************
-
-TBA

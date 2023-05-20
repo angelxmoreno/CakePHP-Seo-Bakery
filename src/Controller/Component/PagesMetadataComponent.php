@@ -69,6 +69,7 @@ class PagesMetadataComponent extends Component
     {
         $method = $this->getConfig('buildTitleFunc');
         if ($method && is_callable($method)) return $method($template);
+        if ($method && is_string($method)) return $method;
         return ucfirst(str_replace('/', ' ', mb_strtolower($template)));
     }
 
@@ -76,6 +77,8 @@ class PagesMetadataComponent extends Component
     {
         $method = $this->getConfig('buildDescriptionFunc');
         if ($method && is_callable($method)) return $method($template);
+        if ($method && is_string($method)) return $method;
+
         return 'The ' . $this->buildMetaTitle($template) . ' page';
     }
 
@@ -83,6 +86,7 @@ class PagesMetadataComponent extends Component
     {
         $method = $this->getConfig('buildKeywordsFunc');
         if ($method && is_callable($method)) return $method($template);
+        if ($method && is_array($method)) return $method;
         return explode(' ', $this->buildMetaTitle($template));
     }
 

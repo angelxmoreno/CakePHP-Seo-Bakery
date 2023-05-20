@@ -1,7 +1,7 @@
 Installation
 ************
 
-You can install this plugin into your CakePHP application using [composer](https://getcomposer.org).
+You can install this plugin into your CakePHP application using `composer <https://getcomposer.org>`_.
 The recommended way to install this package using composer is:
 
 .. code:: shell
