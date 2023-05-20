@@ -55,7 +55,7 @@ class MetadataHelper extends Helper
 
     protected function createMetaKeywords()
     {
-        $this->Html->meta('keywords', $this->seoMetadata->meta_keywords, ['block' => true]);
+        $this->Html->meta('keywords', implode(',', $this->seoMetadata->meta_keywords), ['block' => true]);
     }
 
     protected function createMetaRobots()
