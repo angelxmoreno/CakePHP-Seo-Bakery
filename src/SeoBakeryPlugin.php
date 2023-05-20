@@ -36,7 +36,7 @@ class SeoBakeryPlugin extends BasePlugin
         return $models;
     }
 
-    public static function buildComponentConfigs(array $behaviorConfigs): array
+    public static function buildEntityComponentConfigs(array $behaviorConfigs): array
     {
         $controllers = [];
         foreach ($behaviorConfigs as $k => $v) {
@@ -44,7 +44,28 @@ class SeoBakeryPlugin extends BasePlugin
             $controllers[$name] = $v;
             $controllers[$name]['model'] = $k;
         }
+
         return $controllers;
+    }
+
+    public static function buildPagesComponentConfigs(array $pagesConfig): array
+    {
+        $config = [];
+        if (!empty($pagesConfig)) {
+            foreach ($pagesConfig as $k => $v) {
+                $name = is_string($v) ? $v : $k;
+                $config = is_string($v) ? [] : $v;
+                $config['templates'][$name] = array_merge([
+                    'buildTitleFunc' => null,
+                    'buildDescriptionFunc' => null,
+                    'buildKeywordsFunc' => null,
+                    'buildShouldIndexFunc' => null,
+                    'buildShouldFollowFunc' => null,
+                ], $config);
+            }
+        }
+
+        return $config;
     }
 
     /**
