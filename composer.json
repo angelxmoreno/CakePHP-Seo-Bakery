@@ -5,10 +5,13 @@
     "license": "MIT",
     "require": {
         "php": ">=7.4",
-        "cakephp/cakephp": "4.4.*"
+        "cakephp/cakephp": "4.4.*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.3"
+        "phpunit/phpunit": "^8.5 || ^9.3",
+        "cakephp/migrations": "^3.8",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +23,8 @@
             "SeoBakery\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
         }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always"
     }
 }

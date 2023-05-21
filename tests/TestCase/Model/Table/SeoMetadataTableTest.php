@@ -55,7 +55,7 @@ class SeoMetadataTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \SeoBakery\Model\Table\SeoMetadataTable::validationDefault()
+     * @uses SeoMetadataTable::validationDefault
      */
     public function testValidationDefault(): void
     {
@@ -66,7 +66,7 @@ class SeoMetadataTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
-     * @uses \SeoBakery\Model\Table\SeoMetadataTable::buildRules()
+     * @uses SeoMetadataTable::buildRules
      */
     public function testBuildRules(): void
     {
@@ -77,7 +77,7 @@ class SeoMetadataTableTest extends TestCase
      * Test findOrCreateByRequest method
      *
      * @return void
-     * @uses \SeoBakery\Model\Table\SeoMetadataTable::findOrCreateByRequest()
+     * @uses SeoMetadataTable::findOrCreateByRequest
      */
     public function testFindOrCreateByRequest(): void
     {
@@ -88,7 +88,7 @@ class SeoMetadataTableTest extends TestCase
      * Test patchEntityNulls method
      *
      * @return void
-     * @uses \SeoBakery\Model\Table\SeoMetadataTable::patchEntityNulls()
+     * @uses SeoMetadataTable::patchEntityNulls
      */
     public function testPatchEntityNulls(): void
     {
@@ -99,7 +99,7 @@ class SeoMetadataTableTest extends TestCase
      * Test buildNameFromRouteParams method
      *
      * @return void
-     * @uses \SeoBakery\Model\Table\SeoMetadataTable::buildNameFromRouteParams()
+     * @uses SeoMetadataTable::buildNameFromRouteParams
      */
     public function testBuildNameFromRouteParams(): void
     {
@@ -110,7 +110,7 @@ class SeoMetadataTableTest extends TestCase
      * Test buildNameFromRequestParams method
      *
      * @return void
-     * @uses \SeoBakery\Model\Table\SeoMetadataTable::buildNameFromRequestParams()
+     * @uses SeoMetadataTable::buildNameFromRequestParams
      */
     public function testBuildNameFromRequestParams(): void
     {

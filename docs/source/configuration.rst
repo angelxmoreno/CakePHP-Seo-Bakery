@@ -2,8 +2,11 @@ Configuration
 =============
 
 After installation, all you need to get started is to let the plugin know which model you want to track. The plugin will
-automatically attach the `MetaDataBehavior` to the models mentioned in the configuration. The configuration also
-determines the controllers to automatically attach the `MetaDataComponent` to.
+automatically attach the the proper behavior, helper and components as follows:
+
+* All models provided in the configuration will have the behavior `MetaDataBehavior`
+* All controllers correlating to the models provided in the configuration wil have the `EntityMetadataComponent`
+* The `PagesController` will have the `PagesMetadataComponent`
 
 Adding Models
 _____________
@@ -116,7 +119,7 @@ The main reason for this "double value" approach is to be able to quickly genera
 while at the same time allow for more SEO optimized values to be given at a later time.
 
 Builders are simple callables that are provided to the behaviorModels config. The plugin comes with
-:doc:`Builder functions as classes </configuration/builderFunctions>`. Below are some examples on how to override the
+:doc:`Builder functions as classes <builderFunctions>`. Below are some examples on how to override the
 default Builder functions:
 
 .. code:: php
@@ -141,7 +144,7 @@ default Builder functions:
                             return null
                     }
                 },
-                'buildKeywordsFunc' => new \SeoBakery\Builder\SimpleMetaKeywordsBuilder(),
+                'buildKeywordsFunc' => new \SeoBakery\Builder\Entity\SimpleMetaKeywordsBuilder(),
                 'buildShouldIndexFunc' => [Article, 'shouldIndex'],
                 'buildShouldFollowFunc' => [Article, 'shouldFollow'],
             ]
@@ -149,9 +152,43 @@ default Builder functions:
     ],
     ...
 
+Configuring MetaData for PagesController
+________________________________________
+The ``PagesController`` can be configured to take advantage of the many features of the plugin. To have the plugin track
+a template used by the pages controller simply add it to the ``pages`` key of the configuration like so:
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. code:: php
 
-   configuration/builderFunctions
+    <?php
+    // app.php
+    ...
+    \SeoBakery\SeoBakeryPlugin::NAME => [
+        'pages' => ['about','contact','home']
+    ],
+    ...
+
+Configuring the Builder functions for ``pages`` is similar to ``behaviorModels``.
+
+* The signature of the callback is the template path for the page.
+* instead of a callable you can use a literal value i.e. string or array
+
+Below are examples to illustrate this:
+
+.. code:: php
+
+    <?php
+    // app.php
+    ...
+    \SeoBakery\SeoBakeryPlugin::NAME => [
+        'pages' => [
+            'home' => [
+                'buildTitleFunc' => Configure::read('App.siteName'),
+                'buildDescriptionFunc' => 'Welcome to ' . Configure::read('App.siteName'),
+            ],
+            'sub-dir/some-page' => [
+                'buildTitleFunc' => fn(string $template) => ucfirst(str_replace('/', ' ', mb_strtolower($template))),
+            ],
+            'contact',
+        ]
+    ],
+    ...

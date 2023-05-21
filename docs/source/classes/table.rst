@@ -1,4 +1,0 @@
-SeoMetadataTable
-****************
-
-TBA

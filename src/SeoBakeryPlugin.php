@@ -10,6 +10,9 @@ use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
 use Cake\Utility\Hash;
+use SeoBakery\Builder\Entity;
+use SeoBakery\Builder\ListView;
+use SeoBakery\Builder\Page;
 
 /**
  * Plugin for SeoBakery
@@ -23,20 +26,26 @@ class SeoBakeryPlugin extends BasePlugin
         $models = [];
         foreach ($rawConfig['behaviorModels'] as $k => $v) {
             $alias = is_string($v) ? $v : $k;
-            $config = is_string($v) ? [
+            $config = is_string($v) ? [] : $v;
+            $config = array_merge([
                 'prefix' => null,
                 'plugin' => null,
                 'controller' => $alias,
                 'actions' => ['view'],
-            ] : $v;
-
+                'identifierFunc' => 0,
+                'buildTitleFunc' => new Entity\MetaTitle(),
+                'buildDescriptionFunc' => new Entity\MetaDescriptionBuilder(),
+                'buildKeywordsFunc' => new Entity\MetaKeywordsBuilder(),
+                'buildShouldIndexFunc' => true,
+                'buildShouldFollowFunc' => true,
+            ], $config);
             $models[$alias] = $config;
         }
 
         return $models;
     }
 
-    public static function buildComponentConfigs(array $behaviorConfigs): array
+    public static function buildEntityComponentConfigs(array $behaviorConfigs): array
     {
         $controllers = [];
         foreach ($behaviorConfigs as $k => $v) {
@@ -44,7 +53,54 @@ class SeoBakeryPlugin extends BasePlugin
             $controllers[$name] = $v;
             $controllers[$name]['model'] = $k;
         }
+
         return $controllers;
+    }
+
+    public static function buildPagesComponentConfigs(array $pagesConfig): array
+    {
+        $configs = [
+            'templates' => [],
+        ];
+        if (!empty($pagesConfig)) {
+            foreach ($pagesConfig as $k => $v) {
+                $name = is_string($v) ? $v : $k;
+                $config = is_string($v) ? [] : $v;
+                $configs['templates'][$name] = array_merge([
+                    'buildTitleFunc' => new Page\MetaTitle(),
+                    'buildDescriptionFunc' => new Page\MetaDescriptionBuilder(),
+                    'buildKeywordsFunc' => new Page\MetaKeywordsBuilder(),
+                    'buildShouldIndexFunc' => true,
+                    'buildShouldFollowFunc' => true,
+                ], $config);
+            }
+        }
+        return $configs;
+    }
+
+    public static function buildListViewComponentConfigs(array $listViewConfig): array
+    {
+        $configs = [];
+        if (!empty($listViewConfig)) {
+            foreach ($listViewConfig as $k => $v) {
+                $name = is_string($v) ? $v : $k;
+                $config = is_string($v) ? [] : $v;
+                $configs[$name] = array_merge([
+                    'prefix' => null,
+                    'plugin' => null,
+                    'controller' => $name,
+                    'model' => $name,
+                    'actions' => ['index'],
+                    'buildTitleFunc' => new ListView\MetaTitle(),
+                    'buildDescriptionFunc' => new ListView\MetaDescriptionBuilder(),
+                    'buildKeywordsFunc' => new ListView\MetaKeywordsBuilder(),
+                    'buildShouldIndexFunc' => true,
+                    'buildShouldFollowFunc' => true,
+                ], $config);
+            }
+        }
+
+        return $configs;
     }
 
     /**

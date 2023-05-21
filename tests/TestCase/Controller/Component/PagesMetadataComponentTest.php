@@ -5,19 +5,19 @@ namespace SeoBakery\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
 use Cake\TestSuite\TestCase;
-use SeoBakery\Controller\Component\MetadataComponent;
+use SeoBakery\Controller\Component\PagesMetadataComponent;
 
 /**
- * SeoBakery\Controller\Component\MetadataComponent Test Case
+ * SeoBakery\Controller\Component\PagesMetadataComponent Test Case
  */
-class MetadataComponentTest extends TestCase
+class PagesMetadataComponentTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var MetadataComponent
+     * @var PagesMetadataComponent
      */
-    protected MetadataComponent $Metadata;
+    protected $PagesMetadata;
 
     /**
      * setUp method
@@ -28,7 +28,7 @@ class MetadataComponentTest extends TestCase
     {
         parent::setUp();
         $registry = new ComponentRegistry();
-        $this->Metadata = new MetadataComponent($registry);
+        $this->PagesMetadata = new PagesMetadataComponent($registry);
     }
 
     /**
@@ -38,7 +38,7 @@ class MetadataComponentTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Metadata);
+        unset($this->PagesMetadata);
 
         parent::tearDown();
     }

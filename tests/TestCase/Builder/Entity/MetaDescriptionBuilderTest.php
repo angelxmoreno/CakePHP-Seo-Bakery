@@ -1,25 +1,25 @@
 <?php
 
-namespace SeoBakery\Test\TestCase\Builder;
+namespace SeoBakery\Test\TestCase\Builder\Entity;
 
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
-use SeoBakery\Builder\SimpleMetaDescriptionBuilder;
+use SeoBakery\Builder\Entity\MetaDescriptionBuilder;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertSame;
 
-class SimpleMetaDescriptionBuilderTest extends TestCase
+class MetaDescriptionBuilderTest extends TestCase
 {
     /**
      * Test subject
      */
-    protected SimpleMetaDescriptionBuilder $Builder;
+    protected MetaDescriptionBuilder $Builder;
 
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->Builder = new SimpleMetaDescriptionBuilder();
+        $this->Builder = new MetaDescriptionBuilder();
     }
 
     public function tearDown(): void
