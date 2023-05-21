@@ -6,6 +6,7 @@ namespace SeoBakery\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
+use Cake\Http\ServerRequest;
 use SeoBakery\Model\Entity\SeoMetadata;
 use SeoBakery\Shared\SeoMetadataTableAware;
 
@@ -25,16 +26,22 @@ class PagesMetadataComponent extends Component
         'templates' => [],
     ];
 
-    public function beforeRender(EventInterface $event)
+    public function startup(EventInterface $event)
     {
         $seoMetadata = null;
         /** @var Controller $controller */
         $controller = $event->getSubject();
-        $template = trim($controller->viewBuilder()->getTemplate(), '/');
+        $template = implode($this->getRequest()->getParam('pass'));
         if ($this->isQualifyingRequest($template) && $controller->getName() === 'Pages') {
             $seoMetadata = $this->getPagesSeoMetadata($template);
         }
-        if ($seoMetadata) $this->getController()->set(compact('seoMetadata'));
+        if ($seoMetadata) {
+            $path = $this->getRequest()->getUri()->getPath();
+            if ($seoMetadata->canonical && $path <> $seoMetadata->canonical) {
+                $controller->redirect($this->getRequest()->getUri()->withPath($seoMetadata->canonical));
+            }
+            $this->getController()->set(compact('seoMetadata'));
+        }
     }
 
     protected function getPagesSeoMetadata(string $template): SeoMetadata
@@ -109,5 +116,13 @@ class PagesMetadataComponent extends Component
     protected function isQualifyingRequest(string $template): bool
     {
         return array_key_exists($template, $this->getConfig('templates'));
+    }
+
+    /**
+     * @return ServerRequest
+     */
+    protected function getRequest(): ServerRequest
+    {
+        return $this->getController()->getRequest();
     }
 }
