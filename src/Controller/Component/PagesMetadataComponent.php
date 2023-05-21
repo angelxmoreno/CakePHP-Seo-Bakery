@@ -34,13 +34,11 @@ class PagesMetadataComponent extends Component
         if ($this->isQualifyingRequest($template) && $controller->getName() === 'Pages') {
             $seoMetadata = $this->getPagesSeoMetadata($template);
         }
-
         if ($seoMetadata) $this->getController()->set(compact('seoMetadata'));
     }
 
     protected function getPagesSeoMetadata(string $template): SeoMetadata
     {
-
         $name = implode(':', [
             'Pages',
             $template,

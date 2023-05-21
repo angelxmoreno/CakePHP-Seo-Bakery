@@ -6,11 +6,8 @@ namespace SeoBakery\Model\Behavior;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Table;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
-use SeoBakery\Builder\Entity\SimpleMetaDescriptionBuilder;
-use SeoBakery\Builder\Entity\SimpleMetaKeywordsBuilder;
 use SeoBakery\Model\Entity\SeoMetadata;
 use SeoBakery\Shared\SeoMetadataTableAware;
 
@@ -38,23 +35,6 @@ class MetadataBehavior extends Behavior
         'buildShouldIndexFunc' => null,
         'buildShouldFollowFunc' => null,
     ];
-
-    /**
-     * Constructor
-     *
-     * Merges config with the default and store in the config property
-     *
-     * @param Table $table The table this behavior is attached to.
-     * @param array<string, mixed> $config The config for this behavior.
-     */
-    public function __construct(Table $table, array $config = [])
-    {
-        $this->_defaultConfig = array_merge($this->_defaultConfig, [
-            'buildDescriptionFunc' => new SimpleMetaDescriptionBuilder(),
-            'buildKeywordsFunc' => new SimpleMetaKeywordsBuilder(),
-        ]);
-        parent::__construct($table, $config);
-    }
 
     /**
      * @param EventInterface $event

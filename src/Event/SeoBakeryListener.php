@@ -55,8 +55,14 @@ class SeoBakeryListener implements EventListenerInterface
 
         if ($name === 'Pages' && !empty($this->getConfig('pagesComponentConfigs'))) {
             $controller->loadComponent('SeoBakery.PagesMetadata', $this->getConfig('pagesComponentConfigs'));
-        } elseif (array_key_exists($name, $this->getConfig('entityComponentConfigs'))) {
+        }
+
+        if (array_key_exists($name, $this->getConfig('entityComponentConfigs'))) {
             $controller->loadComponent('SeoBakery.EntityMetadata', $this->getConfig('entityComponentConfigs')[$name]);
+        }
+
+        if (array_key_exists($name, $this->getConfig('listViewsComponentConfigs'))) {
+            $controller->loadComponent('SeoBakery.ListViewMetadata', $this->getConfig('listViewsComponentConfigs')[$name]);
         }
     }
 }

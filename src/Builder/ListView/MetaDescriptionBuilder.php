@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace SeoBakery\Builder\EntityAggregate;
+namespace SeoBakery\Builder\ListView;
 
 use Cake\ORM\Association;
 use Cake\ORM\Table;
-use SeoBakery\Builder\Base\EntityAggregateMetaBuilderBase;
+use SeoBakery\Builder\Base\ListViewMetaBuilderBase;
 
-class MetaDescriptionBuilder extends EntityAggregateMetaBuilderBase
+class MetaDescriptionBuilder extends ListViewMetaBuilderBase
 {
     protected static int $limit = 160;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace SeoBakery\Test\TestCase\Builder\EntityAggregare;
+namespace SeoBakery\Test\TestCase\Builder\ListView;
 
 use Cake\ORM\Table;
 use Cake\TestSuite\TestCase;
-use SeoBakery\Builder\EntityAggregate\MetaDescriptionBuilder;
+use SeoBakery\Builder\ListView\MetaDescriptionBuilder;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertSame;
 
