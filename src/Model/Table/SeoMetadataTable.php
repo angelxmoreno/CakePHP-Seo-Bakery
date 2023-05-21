@@ -6,12 +6,9 @@ namespace SeoBakery\Model\Table;
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
-use Cake\Http\ServerRequest;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Routing\Router;
-use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use SeoBakery\Model\Entity\SeoMetadata;
 
@@ -80,12 +77,6 @@ class SeoMetadataTable extends Table
             ->requirePresence('name', 'create', 'Name is required')
             ->notEmptyString('name', 'Name can not be an empty string')
             ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->scalar('uri')
-            ->maxLength('uri', 500)
-            ->notEmptyString('uri')
-            ->add('uri', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('canonical')
@@ -175,100 +166,10 @@ class SeoMetadataTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
-        $rules->add($rules->isUnique(['uri']), ['errorField' => 'uri']);
         $rules->add($rules->isUnique(['canonical'], ['allowMultipleNulls' => true]), ['errorField' => 'canonical']);
         $rules->add($rules->isUnique(['table_alias', 'table_identifier', 'action'], ['allowMultipleNulls' => true]), ['errorField' => 'table_alias']);
 
         return $rules;
     }
 
-    /**
-     * @param array $data
-     * @param ServerRequest|null $request
-     * @return SeoMetadata
-     * @deprecated
-     */
-    public function findOrCreateByRequest(array $data = [], ?ServerRequest $request = null): SeoMetadata
-    {
-        $request = $request ?? Router::getRequest();
-        $name = $this->buildNameFromRequestParams($request);
-        $knownVars = [
-            'name' => $name,
-            'prefix' => $request->getParam('prefix'),
-            'plugin' => $request->getParam('plugin'),
-            'controller' => $request->getParam('controller'),
-            'action' => $request->getParam('action'),
-            'passed' => $request->getParam('pass'),
-            'uri' => $request->getRequestTarget(),
-        ];
-        $seoMetadata = $this->findOrCreate(compact('name'));
-        $seoMetadata = $this->patchEntityNulls($seoMetadata, array_merge($data, $knownVars), []);
-        $this->saveOrFail($seoMetadata);
-
-        return $seoMetadata;
-    }
-
-    /**
-     * @param SeoMetadata $entity
-     * @param array $data
-     * @param array $options
-     * @return SeoMetadata
-     * @deprecated
-     */
-    public function patchEntityNulls(SeoMetadata $entity, array $data, array $options = []): SeoMetadata
-    {
-        $data = array_merge($data, $entity->toArray());
-        unset($data['created']);
-        unset($data['modified']);
-        return $this->patchEntity($entity, $data, $options);
-    }
-
-    /**
-     * @param array $params
-     * @return string
-     * @deprecated
-     */
-    public function buildNameFromRouteParams(array $params): string
-    {
-        $prefix = Hash::get($params, 'prefix', '');
-        $plugin = Hash::get($params, 'plugin', '');
-        $controller = Hash::get($params, 'controller', '');
-        $action = Hash::get($params, 'action', '');
-        $pass = Hash::get($params, 'pass', []);
-        $passed = array_reduce($pass, fn($v1, $v2) => sprintf('%s:%s', $v1, $v2), '');
-
-        /**
-         * special treatment for the Pages controller
-         */
-        if ($controller === 'Pages' && $pass[0] === 'display') {
-            unset($pass[0]);
-        }
-
-        return sprintf(
-            '%s-%s-%s-%s-%s',
-            $prefix,
-            $plugin,
-            $controller,
-            $action,
-            $passed
-        );
-    }
-
-    /**
-     * @param ServerRequest|null $request
-     * @return string
-     * @deprecated
-     */
-    public function buildNameFromRequestParams(?ServerRequest $request = null): string
-    {
-        $request = $request ?? Router::getRequest();
-
-        $prefix = $request->getParam('prefix', null);
-        $plugin = $request->getParam('plugin', '');
-        $controller = $request->getParam('controller', '');
-        $action = $request->getParam('action', '');
-        $pass = $request->getParam('pass', []);
-
-        return $this->buildNameFromRouteParams(compact('prefix', 'plugin', 'controller', 'action', 'pass'));
-    }
 }

@@ -11,7 +11,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $uri
  * @property string|null $canonical
  * @property string|null $table_alias
  * @property int|null $table_identifier
@@ -44,7 +43,6 @@ class SeoMetadata extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'uri' => true,
         'canonical' => true,
         'table_alias' => true,
         'table_identifier' => true,
