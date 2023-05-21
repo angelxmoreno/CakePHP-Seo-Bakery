@@ -10,6 +10,8 @@ use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
 use Cake\Utility\Hash;
+use SeoBakery\Builder\Entity\MetaDescriptionBuilder;
+use SeoBakery\Builder\Entity\MetaKeywordsBuilder;
 
 /**
  * Plugin for SeoBakery

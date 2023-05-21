@@ -144,7 +144,7 @@ default Builder functions:
                             return null
                     }
                 },
-                'buildKeywordsFunc' => new \SeoBakery\Builder\SimpleMetaKeywordsBuilder(),
+                'buildKeywordsFunc' => new \SeoBakery\Builder\Entity\SimpleMetaKeywordsBuilder(),
                 'buildShouldIndexFunc' => [Article, 'shouldIndex'],
                 'buildShouldFollowFunc' => [Article, 'shouldFollow'],
             ]

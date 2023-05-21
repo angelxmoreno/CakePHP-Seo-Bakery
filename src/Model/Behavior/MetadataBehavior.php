@@ -9,8 +9,8 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
-use SeoBakery\Builder\SimpleMetaDescriptionBuilder;
-use SeoBakery\Builder\SimpleMetaKeywordsBuilder;
+use SeoBakery\Builder\Entity\SimpleMetaDescriptionBuilder;
+use SeoBakery\Builder\Entity\SimpleMetaKeywordsBuilder;
 use SeoBakery\Model\Entity\SeoMetadata;
 use SeoBakery\Shared\SeoMetadataTableAware;
 

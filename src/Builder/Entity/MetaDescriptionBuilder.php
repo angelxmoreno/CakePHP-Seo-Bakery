@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace SeoBakery\Builder;
+namespace SeoBakery\Builder\Entity;
 
 use Cake\Datasource\EntityInterface;
+use SeoBakery\Builder\Base\EntityMetaBuilderBase;
 
-class SimpleMetaDescriptionBuilder extends SimpleMetaBuilderBase
+class MetaDescriptionBuilder extends EntityMetaBuilderBase
 {
     protected static int $limit = 160;
 
@@ -15,7 +16,7 @@ class SimpleMetaDescriptionBuilder extends SimpleMetaBuilderBase
         $content = $content ?? $entity->get('description');
         $content = $content ?? self::getEntityDisplayName($entity);
         if ($action <> 'view') {
-            $content = ucfirst($action) . ' ' . $content;
+            $content = ucfirst($action) . ' MetaDescriptionBuilder.php' . $content;
         }
 
         return substr($content, 0, self::$limit);
