@@ -33,6 +33,40 @@ use SeoBakery\Model\Entity\SeoMetadata;
  */
 class SeoMetadataTable extends Table
 {
+
+    public const MISSING_FIELDS_OPTIONS = [
+        'meta_title',
+        'meta_description',
+        'canonical',
+    ];
+
+    public const OPTIMIZED_OPTIONS = [
+        'True',
+        'False',
+    ];
+
+    public const SORT_FIELDS_OPTIONS = [
+        'name',
+        'canonical',
+        'table_alias',
+        'table_identifier',
+        'prefix',
+        'plugin',
+        'controller',
+        'action',
+        'passed',
+        'meta_title',
+        'meta_title_fallback',
+        'meta_description',
+        'meta_description_fallback',
+        'meta_keywords',
+        'meta_keywords_fallback',
+        'noindex',
+        'nofollow',
+        'created',
+        'modified',
+    ];
+
     /**
      * Initialize method
      *
@@ -172,4 +206,23 @@ class SeoMetadataTable extends Table
         return $rules;
     }
 
+    public function fetchUniqueTableAliasList(): array
+    {
+        $tables = $this
+            ->find('list', [
+                'keyField' => 'table_alias',
+                'valueField' => 'table_alias',
+            ])
+            ->select('table_alias')
+            ->distinct('table_alias')
+            ->whereNotNull('table_alias')
+            ->all()
+            ->toArray();
+
+
+        return [
+                0 => 'All',
+                null => 'None',
+            ] + $tables;
+    }
 }
