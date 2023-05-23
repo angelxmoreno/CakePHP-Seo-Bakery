@@ -26,7 +26,7 @@ class ListViewMetadataComponent extends Component
      */
     protected $_defaultConfig = [];
 
-    public function beforeRender(EventInterface $event)
+    public function startup(EventInterface $event)
     {
         $seoMetadata = null;
         /** @var Controller $controller */
@@ -35,7 +35,13 @@ class ListViewMetadataComponent extends Component
             $seoMetadata = $this->getSeoMetadata();
         }
 
-        if ($seoMetadata) $this->getController()->set(compact('seoMetadata'));
+        if ($seoMetadata) {
+            $path = $this->getRequest()->getUri()->getPath();
+            if ($seoMetadata->canonical && $path <> $seoMetadata->canonical) {
+                $controller->redirect($this->getRequest()->getUri()->withPath($seoMetadata->canonical));
+            }
+            $this->getController()->set(compact('seoMetadata'));
+        }
     }
 
     protected function getSeoMetadata(): SeoMetadata

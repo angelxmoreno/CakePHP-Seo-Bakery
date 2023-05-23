@@ -30,11 +30,6 @@ class Initial extends AbstractMigration
                 'limit' => 500,
                 'null' => false,
             ])
-            ->addColumn('uri', 'string', [
-                'default' => null,
-                'limit' => 500,
-                'null' => true,
-            ])
             ->addColumn('canonical', 'string', [
                 'default' => null,
                 'limit' => 500,
@@ -129,12 +124,6 @@ class Initial extends AbstractMigration
             ->addIndex(
                 [
                     'name',
-                ],
-                ['unique' => true]
-            )
-            ->addIndex(
-                [
-                    'uri',
                 ],
                 ['unique' => true]
             )

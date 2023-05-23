@@ -43,19 +43,19 @@ class MetadataHelper extends Helper
 
     protected function createMetaTitle()
     {
-        if ($this->seoMetadata->meta_title) {
-            $this->getView()->assign('title', $this->seoMetadata->meta_title);
+        if ($this->seoMetadata->getMetaTitleOrFallback()) {
+            $this->getView()->assign('title', $this->seoMetadata->getMetaTitleOrFallback);
         }
     }
 
     protected function createMetaDescription()
     {
-        $this->Html->meta('description', $this->seoMetadata->meta_description, ['block' => true]);
+        $this->Html->meta('description', $this->seoMetadata->getMetaDescriptionOrFallback(), ['block' => true]);
     }
 
     protected function createMetaKeywords()
     {
-        $this->Html->meta('keywords', implode(',', $this->seoMetadata->meta_keywords), ['block' => true]);
+        $this->Html->meta('keywords', implode(',', $this->seoMetadata->getMetaKeywordsOrFallback()), ['block' => true]);
     }
 
     protected function createMetaRobots()

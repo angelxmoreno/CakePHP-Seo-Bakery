@@ -24,7 +24,7 @@ class EntityMetadataComponent extends Component
      */
     protected $_defaultConfig = [];
 
-    public function beforeRender(EventInterface $event)
+    public function startup(EventInterface $event)
     {
         $seoMetadata = null;
         $isQualifyingRequest = $this->isQualifyingRequest();
@@ -33,7 +33,13 @@ class EntityMetadataComponent extends Component
                 'request' => $this->getRequest(),
             ]);
         }
-        if ($seoMetadata) $this->getController()->set(compact('seoMetadata'));
+        if ($seoMetadata) {
+            $path = $this->getRequest()->getUri()->getPath();
+            if ($seoMetadata->canonical && $path <> $seoMetadata->canonical) {
+                $this->getController()->redirect($this->getRequest()->getUri()->withPath($seoMetadata->canonical));
+            }
+            $this->getController()->set(compact('seoMetadata'));
+        }
     }
 
     protected function isQualifyingRequest(): bool

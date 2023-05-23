@@ -11,7 +11,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $uri
  * @property string|null $canonical
  * @property string|null $table_alias
  * @property int|null $table_identifier
@@ -44,7 +43,6 @@ class SeoMetadata extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'uri' => true,
         'canonical' => true,
         'table_alias' => true,
         'table_identifier' => true,
@@ -65,18 +63,18 @@ class SeoMetadata extends Entity
         'modified' => true,
     ];
 
-    protected function _getMetaTitle(?string $value): ?string
+    public function getMetaTitleOrFallback(): ?string
     {
-        return $value ?? $this->meta_title_fallback;
+        return $this->meta_title ?? $this->meta_title_fallback;
     }
 
-    protected function _getMetaDescription(?string $value): ?string
+    public function getMetaDescriptionOrFallback(): ?string
     {
-        return $value ?? $this->meta_description_fallback;
+        return $this->meta_description ?? $this->meta_description_fallback;
     }
 
-    protected function _getMetaKeywords(?array $value): ?array
+    public function getMetaKeywordsOrFallback(): ?array
     {
-        return $value ?? $this->meta_keywords_fallback;
+        return $this->meta_keywords ?? $this->meta_keywords_fallback;
     }
 }
