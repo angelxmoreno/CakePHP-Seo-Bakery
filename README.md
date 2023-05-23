@@ -1,5 +1,5 @@
 # SeoBakery plugin for CakePHP
-Plugin is currently in phase 3 of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
+Plugin is currently in phase  of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
 
 ## Another CakePHP SEO Plugin? Why?
 During the years I've come across a few CakePHP SEO plugins that served as amazing drop-in solutions for MVP apps. However,
@@ -37,7 +37,7 @@ Phase one focuses on delivering the MVP of the plugin. It allows the ability to 
 
 ### Phase 3: Dashboard
 #### Todos
-- [ ] Create Controller/Views for the dashboard
+- [X] Create Controller/Views for the dashboard
 
 ### Phase 4: Open Schema & Twitter Cards
 #### Todos
@@ -48,6 +48,11 @@ Phase one focuses on delivering the MVP of the plugin. It allows the ability to 
 - [ ] Create Robots controller
 - [ ] Behavior for creating sitemap entries
 - [ ] Create Sitemaps controller
+
+### Phase 6: ChatGPT suggestions
+#### Todos
+- [ ] Integrate ChatGPT
+- [ ] Create `Prompt Config` for mapping suggestions to SeoMetadata
 
 ## Requirements
 - CakePHP 4.x
