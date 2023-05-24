@@ -1,5 +1,5 @@
 # SeoBakery plugin for CakePHP
-Plugin is currently in phase  of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
+Plugin is `currently in phase 4` of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
 
 ## Another CakePHP SEO Plugin? Why?
 During the years I've come across a few CakePHP SEO plugins that served as amazing drop-in solutions for MVP apps. However,
@@ -30,7 +30,7 @@ Phase one focuses on delivering the MVP of the plugin. It allows the ability to 
 - [X] Create Helper to set/render vars
 - [X] Create command to back-fill metadata
 
-### Phase 2: Dashboard
+### Phase 2: Pages and Index views
 #### Todos
 - [X] Solve for Pages controller
 - [X] Solve for Index views
