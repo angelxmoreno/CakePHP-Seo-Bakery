@@ -5,6 +5,7 @@ namespace SeoBakery;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
+use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
@@ -134,6 +135,13 @@ class SeoBakeryPlugin extends BasePlugin
      */
     public function routes(RouteBuilder $routes): void
     {
+        $robotsPath = Configure::read(self::NAME . '.robotsPath', '/robots.txt');
+        $routes->connect($robotsPath, [
+            'prefix' => false,
+            'plugin' => 'SeoBakery',
+            'controller' => 'Robots',
+            'action' => 'display',
+        ]);
         $routes->plugin(
             'SeoBakery',
             ['path' => '/seo-bakery'],
