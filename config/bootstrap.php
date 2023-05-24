@@ -7,6 +7,12 @@ use SeoBakery\Event\SeoBakeryListener;
 use SeoBakery\SeoBakeryPlugin;
 
 $configDefaults = [
+    'robotsPath' => '/robots.txt',
+    'robotRules' => [
+        '*' => [
+            'allow' => ['/'],
+        ],
+    ],
     'siteName' => null,
     'twitterSiteUsername' => null,
     'backFill' => [],
