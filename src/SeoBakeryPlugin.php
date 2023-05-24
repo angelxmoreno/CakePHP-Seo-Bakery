@@ -38,6 +38,8 @@ class SeoBakeryPlugin extends BasePlugin
                 'buildKeywordsFunc' => new Entity\MetaKeywordsBuilder(),
                 'buildShouldIndexFunc' => true,
                 'buildShouldFollowFunc' => true,
+                'buildImageUrlFunc' => null,
+                'buildImageAltFunc' => null,
             ], $config);
             $models[$alias] = $config;
         }
@@ -72,6 +74,8 @@ class SeoBakeryPlugin extends BasePlugin
                     'buildKeywordsFunc' => new Page\MetaKeywordsBuilder(),
                     'buildShouldIndexFunc' => true,
                     'buildShouldFollowFunc' => true,
+                    'buildImageUrlFunc' => null,
+                    'buildImageAltFunc' => null,
                 ], $config);
             }
         }
@@ -96,6 +100,8 @@ class SeoBakeryPlugin extends BasePlugin
                     'buildKeywordsFunc' => new ListView\MetaKeywordsBuilder(),
                     'buildShouldIndexFunc' => true,
                     'buildShouldFollowFunc' => true,
+                    'buildImageUrlFunc' => null,
+                    'buildImageAltFunc' => null,
                 ], $config);
             }
         }

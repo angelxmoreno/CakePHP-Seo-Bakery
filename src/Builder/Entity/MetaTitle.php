@@ -10,7 +10,7 @@ class MetaTitle extends EntityMetaBuilderBase
 {
     protected static int $limit = 60;
 
-    public function __invoke(EntityInterface $entity, string $action = 'view')
+    public function __invoke(EntityInterface $entity, string $action = 'view'): ?string
     {
         $title = $this->getEntityDisplayName($entity);
         if ($action <> 'view') {

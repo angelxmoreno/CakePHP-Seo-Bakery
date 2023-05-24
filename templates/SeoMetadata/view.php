@@ -59,7 +59,7 @@ $this->Html->css(['SeoBakery.bs5-scoped'], ['block' => true]);
                         </tr>
                         <tr>
                             <th><?= __('Passed') ?></th>
-                            <td><?= implode(',', $seoMetadata->passed) ?></td>
+                            <td><?= !!$seoMetadata->passed ? implode(',', $seoMetadata->passed) : ''; ?></td>
                         </tr>
                         <tr>
                             <th><?= __('Meta Title') ?></th>
@@ -79,11 +79,11 @@ $this->Html->css(['SeoBakery.bs5-scoped'], ['block' => true]);
                         </tr>
                         <tr>
                             <th><?= __('Meta Keywords') ?></th>
-                            <td><?= implode(',', $seoMetadata->meta_keywords) ?></td>
+                            <td><?= !!$seoMetadata->meta_keywords ? implode(',', $seoMetadata->meta_keywords) : '' ?></td>
                         </tr>
                         <tr>
                             <th><?= __('Meta Keywords Fallback') ?></th>
-                            <td><?= implode(',', $seoMetadata->meta_keywords_fallback) ?></td>
+                            <td><?= !!$seoMetadata->meta_keywords_fallback ? implode(',', $seoMetadata->meta_keywords_fallback) : '' ?></td>
                         </tr>
 
 
@@ -96,6 +96,14 @@ $this->Html->css(['SeoBakery.bs5-scoped'], ['block' => true]);
                             <td><?= $seoMetadata->nofollow ? __('Yes') : __('No'); ?></td>
                         </tr>
 
+                        <tr>
+                            <th><?= __('Image Alt') ?></th>
+                            <td><?= h($seoMetadata->image_alt) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Image') ?></th>
+                            <td><?= !!$seoMetadata->image_url ? $this->Html->image($seoMetadata->image_url) : '' ?></td>
+                        </tr>
                         <tr>
                             <th><?= __('Created') ?></th>
                             <td><?= h($seoMetadata->created) ?></td>

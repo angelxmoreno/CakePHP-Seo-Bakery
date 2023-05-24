@@ -7,12 +7,11 @@ use SeoBakery\Event\SeoBakeryListener;
 use SeoBakery\SeoBakeryPlugin;
 
 $configDefaults = [
+    'twitterSiteUsername' => null,
     'backFill' => [],
     'behaviorModels' => [],
     'pages' => [],
-    'listViews' => [
-
-    ],
+    'listViews' => [],
 ];
 
 $config = Configure::read(SeoBakeryPlugin::NAME, []);

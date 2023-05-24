@@ -21,7 +21,9 @@ class MetadataHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [];
+    protected $_defaultConfig = [
+        'twitterSiteUsername' => null,
+    ];
     protected $helpers = ['Html'];
     protected ?SeoMetadata $seoMetadata;
 
@@ -38,13 +40,14 @@ class MetadataHelper extends Helper
             $this->createMetaDescription();
             $this->createMetaKeywords();
             $this->createMetaRobots();
+            $this->createTwitterCard();
         }
     }
 
     protected function createMetaTitle()
     {
         if ($this->seoMetadata->getMetaTitleOrFallback()) {
-            $this->getView()->assign('title', $this->seoMetadata->getMetaTitleOrFallback);
+            $this->getView()->assign('title', $this->seoMetadata->getMetaTitleOrFallback());
         }
     }
 
@@ -71,5 +74,28 @@ class MetadataHelper extends Helper
             $content = 'noindex';
         }
         $this->Html->meta('robots', $content, ['block' => true]);
+    }
+
+    protected function createTwitterCard()
+    {
+        if (!$this->getConfig('twitterSiteUsername')) return;
+        $names = [
+            'card' => 'summary_large_image',
+            'site' => '@' . $this->getConfig('twitterSiteUsername'),
+            'title' => $this->seoMetadata->getMetaTitleOrFallback(),
+            'description' => $this->seoMetadata->getMetaDescriptionOrFallback(),
+        ];
+
+        if ($this->seoMetadata->has('image_url')) {
+            $names['image'] = $this->seoMetadata->image_url;
+        }
+
+        if ($this->seoMetadata->has('image_alt')) {
+            $names['image:alt'] = $this->seoMetadata->image_alt;
+        }
+
+        foreach ($names as $name => $content) {
+            $this->Html->meta('twitter:' . $name, $content, ['block' => true]);
+        }
     }
 }

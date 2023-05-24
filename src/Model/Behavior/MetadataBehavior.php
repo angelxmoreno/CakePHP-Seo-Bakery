@@ -34,6 +34,8 @@ class MetadataBehavior extends Behavior
         'buildKeywordsFunc' => null,
         'buildShouldIndexFunc' => null,
         'buildShouldFollowFunc' => null,
+        'buildImageUrlFunc' => null,
+        'buildImageAltFunc' => null,
     ];
 
     /**
@@ -108,6 +110,8 @@ class MetadataBehavior extends Behavior
             'meta_keywords_fallback' => $this->buildMetaKeywords($entity, $action),
             'noindex' => !$this->buildShouldIndex($entity, $action),
             'nofollow' => !$this->buildShouldFollow($entity, $action),
+            'image_url' => $this->buildImageUrl($entity, $action),
+            'image_alt' => $this->buildImageAlt($entity, $action),
         ];
 
         $data['name'] = implode(':', [
@@ -156,5 +160,23 @@ class MetadataBehavior extends Behavior
         if ($method && is_callable($method)) return (bool)$method($entity, $action);
         if ($method && is_bool($method)) return $method;
         return $action === 'view';
+    }
+
+    protected function buildImageUrl(EntityInterface $entity, string $action): ?string
+    {
+        /** @var callable|bool|null $method */
+        $method = $this->getConfig('buildImageUrlFunc');
+        if ($method && is_callable($method)) return $method($entity, $action);
+        if ($method && is_string($method)) return $method;
+        return null;
+    }
+
+    protected function buildImageAlt(EntityInterface $entity, string $action): ?string
+    {
+        /** @var callable|bool|null $method */
+        $method = $this->getConfig('buildImageAltFunc');
+        if ($method && is_callable($method)) return $method($entity, $action);
+        if ($method && is_string($method)) return $method;
+        return null;
     }
 }
