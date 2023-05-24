@@ -1,5 +1,5 @@
 # SeoBakery plugin for CakePHP
-Plugin is `currently in phase 4` of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
+Plugin is `currently in phase 5` of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
 
 ## Another CakePHP SEO Plugin? Why?
 During the years I've come across a few CakePHP SEO plugins that served as amazing drop-in solutions for MVP apps. However,
@@ -41,8 +41,8 @@ Phase one focuses on delivering the MVP of the plugin. It allows the ability to 
 
 ### Phase 4: Open Schema & Twitter Cards
 #### Todos
-- [ ] Add open schema data
-- [ ] Add Twitter cards data
+- [X] Add open schema data
+- [X] Add Twitter cards data
 
 ### Phase 5: Robots.txt & Sitemaps
 - [ ] Create Robots controller
