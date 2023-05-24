@@ -21,7 +21,9 @@ class MetadataHelper extends Helper
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [];
+    protected $_defaultConfig = [
+        'twitterSiteUsername' => null,
+    ];
     protected $helpers = ['Html'];
     protected ?SeoMetadata $seoMetadata;
 
@@ -38,24 +40,36 @@ class MetadataHelper extends Helper
             $this->createMetaDescription();
             $this->createMetaKeywords();
             $this->createMetaRobots();
+            $this->createOpenGraph();
+            $this->createTwitterCard();
         }
     }
 
     protected function createMetaTitle()
     {
         if ($this->seoMetadata->getMetaTitleOrFallback()) {
-            $this->getView()->assign('title', $this->seoMetadata->getMetaTitleOrFallback);
+            $this->getView()->assign('title', $this->seoMetadata->getMetaTitleOrFallback());
         }
     }
 
     protected function createMetaDescription()
     {
-        $this->Html->meta('description', $this->seoMetadata->getMetaDescriptionOrFallback(), ['block' => true]);
+        $this->addToMetaBlock(
+            $this->Html->meta(
+                'description',
+                $this->seoMetadata->getMetaDescriptionOrFallback()
+            )
+        );
     }
 
     protected function createMetaKeywords()
     {
-        $this->Html->meta('keywords', implode(',', $this->seoMetadata->getMetaKeywordsOrFallback()), ['block' => true]);
+        $this->addToMetaBlock(
+            $this->Html->meta(
+                'keywords',
+                implode(',', $this->seoMetadata->getMetaKeywordsOrFallback())
+            )
+        );
     }
 
     protected function createMetaRobots()
@@ -70,6 +84,59 @@ class MetadataHelper extends Helper
         } elseif (!$this->seoMetadata->nofollow && $this->seoMetadata->noindex) {
             $content = 'noindex';
         }
-        $this->Html->meta('robots', $content, ['block' => true]);
+        $this->addToMetaBlock($this->Html->meta('robots', $content));
+    }
+
+    protected function createTwitterCard()
+    {
+        if (!$this->getConfig('twitterSiteUsername')) return;
+        $names = [
+            'card' => 'summary_large_image',
+            'site' => '@' . $this->getConfig('twitterSiteUsername'),
+            'title' => $this->seoMetadata->getMetaTitleOrFallback(),
+            'description' => $this->seoMetadata->getMetaDescriptionOrFallback(),
+        ];
+
+        if ($this->seoMetadata->has('image_url')) {
+            $names['image'] = $this->seoMetadata->image_url;
+        }
+
+        if ($this->seoMetadata->has('image_alt')) {
+            $names['image:alt'] = $this->seoMetadata->image_alt;
+        }
+
+        foreach ($names as $name => $content) {
+            $this->addToMetaBlock($this->Html->meta('twitter:' . $name, $content));
+        }
+    }
+
+    protected function createOpenGraph()
+    {
+        $names = [
+            'type' => 'website',// @TODO types should be defined and allowed their subtypes to be defined
+            'title' => $this->seoMetadata->getMetaTitleOrFallback(),
+            'description' => $this->seoMetadata->getMetaDescriptionOrFallback(),
+            'url' => $this->seoMetadata->canonical ?? $this->getView()->getRequest()->getRequestTarget(),
+        ];
+
+        if ($siteName = $this->getConfig('siteName')) {
+            $names['site_name'] = $siteName;
+        }
+
+        if ($this->seoMetadata->has('image_url')) {
+            $names['image'] = $this->seoMetadata->image_url;
+        }
+
+        foreach ($names as $name => $content) {
+            $this->addToMetaBlock($this->Html->tag('meta', null, [
+                'property' => 'og:' . $name,
+                'content' => $content,
+            ]));
+        }
+    }
+
+    protected function addToMetaBlock(string $tag): void
+    {
+        $this->getView()->append('meta', "\n" . $tag);
     }
 }

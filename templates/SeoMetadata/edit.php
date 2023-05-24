@@ -36,6 +36,8 @@ use SeoBakery\Model\Entity\SeoMetadata;
                     ]);
                     echo $this->Form->control('noindex');
                     echo $this->Form->control('nofollow');
+                    echo $this->Form->control('image_alt', ['type' => 'text']);
+                    echo $this->Form->control('image_url');
                     ?>
                     <?= $this->Form->button(__('Submit')) ?>
                     <?= $this->Form->end() ?>

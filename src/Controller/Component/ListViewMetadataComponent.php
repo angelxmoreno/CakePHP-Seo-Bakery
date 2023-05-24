@@ -53,7 +53,7 @@ class ListViewMetadataComponent extends Component
         ]);
         $table = $this->getModelTable();
         $action = $this->getRequest()->getParam('action');
-        return $this->getSeoMetadataTable()->findOrCreate(compact('name'), function (SeoMetadata $entity) use ($table, $action) {
+        $seoMetadata = $this->getSeoMetadataTable()->findOrCreate(compact('name'), function (SeoMetadata $entity) use ($table, $action) {
             $this->getSeoMetadataTable()->patchEntity($entity, [
                 'name' => $entity->name,
                 'table_alias' => $this->getConfig('model'),
@@ -63,13 +63,21 @@ class ListViewMetadataComponent extends Component
                 'controller' => $this->getConfig('controller'),
                 'action' => $action,
                 'passed' => [],
-                'meta_title_fallback' => $this->buildMetaTitle($table, $action),
-                'meta_description_fallback' => $this->buildMetaDescription($table, $action),
-                'meta_keywords_fallback' => $this->buildMetaKeywords($table, $action),
-                'noindex' => !$this->buildShouldIndex($table, $action),
-                'nofollow' => !$this->buildShouldFollow($table, $action),
             ]);
         });
+
+        $seoMetadata = $this->getSeoMetadataTable()->patchEntity($seoMetadata, [
+            'name' => $seoMetadata->name,
+            'meta_title_fallback' => $this->buildMetaTitle($table, $action),
+            'meta_description_fallback' => $this->buildMetaDescription($table, $action),
+            'meta_keywords_fallback' => $this->buildMetaKeywords($table, $action),
+            'noindex' => !$this->buildShouldIndex($table, $action),
+            'nofollow' => !$this->buildShouldFollow($table, $action),
+            'image_url' => $this->buildImageUrl($table, $action),
+            'image_alt' => $this->buildImageAlt($table, $action),
+        ]);
+        $this->getSeoMetadataTable()->save($seoMetadata);
+        return $seoMetadata;
     }
 
     protected function buildMetaTitle(Table $table, string $action): ?string
@@ -113,6 +121,24 @@ class ListViewMetadataComponent extends Component
         if ($method && is_callable($method)) return (bool)$method($table, $action);
         if ($method && is_bool($method)) return $method;
         return true;
+    }
+
+    protected function buildImageUrl(Table $table, string $action): ?string
+    {
+        /** @var callable|bool|null $method */
+        $method = $this->getConfig('buildImageUrlFunc');
+        if ($method && is_callable($method)) return $method($table, $action);
+        if ($method && is_string($method)) return $method;
+        return null;
+    }
+
+    protected function buildImageAlt(Table $table, string $action): ?string
+    {
+        /** @var callable|bool|null $method */
+        $method = $this->getConfig('buildImageAltFunc');
+        if ($method && is_callable($method)) return $method($table, $action);
+        if ($method && is_string($method)) return $method;
+        return null;
     }
 
     protected function isQualifyingRequest(): bool

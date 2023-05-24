@@ -27,6 +27,8 @@ use Cake\ORM\Entity;
  * @property array|null $meta_keywords_fallback
  * @property bool|null $noindex
  * @property bool|null $nofollow
+ * @property string|null $image_url
+ * @property string|null $image_alt
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  */
@@ -59,6 +61,8 @@ class SeoMetadata extends Entity
         'meta_keywords_fallback' => true,
         'noindex' => true,
         'nofollow' => true,
+        'image_url' => true,
+        'image_alt' => true,
         'created' => true,
         'modified' => true,
     ];
