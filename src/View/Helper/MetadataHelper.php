@@ -40,6 +40,7 @@ class MetadataHelper extends Helper
             $this->createMetaDescription();
             $this->createMetaKeywords();
             $this->createMetaRobots();
+            $this->createOpenGraph();
             $this->createTwitterCard();
         }
     }
@@ -53,12 +54,22 @@ class MetadataHelper extends Helper
 
     protected function createMetaDescription()
     {
-        $this->Html->meta('description', $this->seoMetadata->getMetaDescriptionOrFallback(), ['block' => true]);
+        $this->addToMetaBlock(
+            $this->Html->meta(
+                'description',
+                $this->seoMetadata->getMetaDescriptionOrFallback()
+            )
+        );
     }
 
     protected function createMetaKeywords()
     {
-        $this->Html->meta('keywords', implode(',', $this->seoMetadata->getMetaKeywordsOrFallback()), ['block' => true]);
+        $this->addToMetaBlock(
+            $this->Html->meta(
+                'keywords',
+                implode(',', $this->seoMetadata->getMetaKeywordsOrFallback())
+            )
+        );
     }
 
     protected function createMetaRobots()
@@ -73,7 +84,7 @@ class MetadataHelper extends Helper
         } elseif (!$this->seoMetadata->nofollow && $this->seoMetadata->noindex) {
             $content = 'noindex';
         }
-        $this->Html->meta('robots', $content, ['block' => true]);
+        $this->addToMetaBlock($this->Html->meta('robots', $content));
     }
 
     protected function createTwitterCard()
@@ -95,7 +106,37 @@ class MetadataHelper extends Helper
         }
 
         foreach ($names as $name => $content) {
-            $this->Html->meta('twitter:' . $name, $content, ['block' => true]);
+            $this->addToMetaBlock($this->Html->meta('twitter:' . $name, $content));
         }
+    }
+
+    protected function createOpenGraph()
+    {
+        $names = [
+            'type' => 'website',// @TODO types should be defined and allowed their subtypes to be defined
+            'title' => $this->seoMetadata->getMetaTitleOrFallback(),
+            'description' => $this->seoMetadata->getMetaDescriptionOrFallback(),
+            'url' => $this->seoMetadata->canonical ?? $this->getView()->getRequest()->getRequestTarget(),
+        ];
+
+        if ($siteName = $this->getConfig('siteName')) {
+            $names['site_name'] = $siteName;
+        }
+
+        if ($this->seoMetadata->has('image_url')) {
+            $names['image'] = $this->seoMetadata->image_url;
+        }
+
+        foreach ($names as $name => $content) {
+            $this->addToMetaBlock($this->Html->tag('meta', null, [
+                'property' => 'og:' . $name,
+                'content' => $content,
+            ]));
+        }
+    }
+
+    protected function addToMetaBlock(string $tag): void
+    {
+        $this->getView()->append('meta', "\n" . $tag);
     }
 }

@@ -7,6 +7,7 @@ use SeoBakery\Event\SeoBakeryListener;
 use SeoBakery\SeoBakeryPlugin;
 
 $configDefaults = [
+    'siteName' => null,
     'twitterSiteUsername' => null,
     'backFill' => [],
     'behaviorModels' => [],

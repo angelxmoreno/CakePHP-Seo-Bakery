@@ -53,9 +53,7 @@ class SeoBakeryListener implements EventListenerInterface
         $controller = $event->getSubject();
         $name = $controller->getName();
         if ($controller->getPlugin() <> 'SeoBakery') {
-            $controller->viewBuilder()->addHelper('SeoBakery.Metadata', [
-                'twitterSiteUsername' => $this->getConfig('twitterSiteUsername'),
-            ]);
+            $controller->viewBuilder()->addHelper('SeoBakery.Metadata', $this->getConfig());
         }
 
         if ($name === 'Pages' && !empty($this->getConfig('pagesComponentConfigs'))) {
