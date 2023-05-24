@@ -38,6 +38,8 @@ class SeoMetadataTable extends Table
         'meta_title',
         'meta_description',
         'canonical',
+        'image_url',
+        'image_alt',
     ];
 
     public const OPTIMIZED_OPTIONS = [
@@ -63,6 +65,8 @@ class SeoMetadataTable extends Table
         'meta_keywords_fallback',
         'noindex',
         'nofollow',
+        'image_url',
+        'image_alt',
         'created',
         'modified',
     ];
@@ -186,6 +190,14 @@ class SeoMetadataTable extends Table
         $validator
             ->boolean('nofollow')
             ->allowEmptyString('nofollow');
+
+        $validator
+            ->scalar('image_url')
+            ->allowEmptyString('image_url');
+
+        $validator
+            ->scalar('image_alt')
+            ->allowEmptyString('image_alt');
 
         return $validator;
     }
