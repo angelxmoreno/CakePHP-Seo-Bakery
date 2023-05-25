@@ -34,7 +34,7 @@ class SeoBakeryPlugin extends BasePlugin
                 'controller' => $alias,
                 'actions' => ['view'],
                 'identifierFunc' => 0,
-                'buildTitleFunc' => new Entity\MetaTitle(),
+                'buildTitleFunc' => new Entity\MetaTitleBuilder(),
                 'buildDescriptionFunc' => new Entity\MetaDescriptionBuilder(),
                 'buildKeywordsFunc' => new Entity\MetaKeywordsBuilder(),
                 'buildShouldIndexFunc' => true,
@@ -70,7 +70,7 @@ class SeoBakeryPlugin extends BasePlugin
                 $name = is_string($v) ? $v : $k;
                 $config = is_string($v) ? [] : $v;
                 $configs['templates'][$name] = array_merge([
-                    'buildTitleFunc' => new Page\MetaTitle(),
+                    'buildTitleFunc' => new Page\MetaTitleBuilder(),
                     'buildDescriptionFunc' => new Page\MetaDescriptionBuilder(),
                     'buildKeywordsFunc' => new Page\MetaKeywordsBuilder(),
                     'buildShouldIndexFunc' => true,
@@ -96,7 +96,7 @@ class SeoBakeryPlugin extends BasePlugin
                     'controller' => $name,
                     'model' => $name,
                     'actions' => ['index'],
-                    'buildTitleFunc' => new ListView\MetaTitle(),
+                    'buildTitleFunc' => new ListView\MetaTitleBuilder(),
                     'buildDescriptionFunc' => new ListView\MetaDescriptionBuilder(),
                     'buildKeywordsFunc' => new ListView\MetaKeywordsBuilder(),
                     'buildShouldIndexFunc' => true,

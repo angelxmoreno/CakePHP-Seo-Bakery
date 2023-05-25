@@ -8,7 +8,6 @@ use SeoBakery\Core\SeoAwareListViewObject;
 
 class ProductsSeoListView extends SeoAwareListViewObject implements SeoAwareInterface
 {
-
     protected function getTableName(): string
     {
         return 'Products';
