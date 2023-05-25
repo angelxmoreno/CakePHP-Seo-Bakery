@@ -26,7 +26,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit --colors=always"
+        "test": "phpunit --colors=always",
+        "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html webroot/coverage"
     },
     "config": {
         "allow-plugins": {

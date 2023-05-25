@@ -6,7 +6,7 @@ namespace SeoBakery\Builder\ListView;
 use Cake\ORM\Table;
 use SeoBakery\Builder\Base\ListViewMetaBuilderBase;
 
-class MetaTitle extends ListViewMetaBuilderBase
+class MetaTitleBuilder extends ListViewMetaBuilderBase
 {
     protected static int $limit = 60;
 

@@ -33,7 +33,6 @@ use SeoBakery\Model\Entity\SeoMetadata;
  */
 class SeoMetadataTable extends Table
 {
-
     public const MISSING_FIELDS_OPTIONS = [
         'meta_title',
         'meta_description',

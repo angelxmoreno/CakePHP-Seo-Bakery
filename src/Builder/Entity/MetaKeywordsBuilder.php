@@ -13,7 +13,7 @@ class MetaKeywordsBuilder extends EntityMetaBuilderBase
     public function __invoke(EntityInterface $entity, string $action = 'view'): array
     {
         $content = $this->getEntityDisplayName($entity);
-        $descriptionBuilder = new MetaDescriptionBuilder($entity, $action);
+        $descriptionBuilder = new MetaDescriptionBuilder();
         $content = $content . ' ' . $descriptionBuilder($entity, $action);
         return $this->extractKeywordByOccurrence($content, self::$limit);
     }

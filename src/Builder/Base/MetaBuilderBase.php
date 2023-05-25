@@ -29,12 +29,13 @@ abstract class MetaBuilderBase
 
     protected function humanizeAlias(string $alias): string
     {
+        $alias = trim(str_replace('/', ' ', $alias));
         return Inflector::humanize(Inflector::underscore($alias));
     }
 
     protected function extractKeywordByOccurrence(string $content, int $size): array
     {
-        $contentArray = explode(' ', $content);
+        $contentArray = explode(' ', strtolower($content));
         $uniqueContentArray = array_unique($contentArray);
         $uniqueContentArray = array_diff($uniqueContentArray, StopWords::STOP_WORDS);
         $wordCount = [];
@@ -43,6 +44,6 @@ abstract class MetaBuilderBase
         }
         arsort($wordCount, SORT_NUMERIC);
         $wordCount = array_splice($wordCount, 0, $size);
-        return array_keys($wordCount);
+        return array_map('ucfirst', array_keys($wordCount));
     }
 }
