@@ -13,7 +13,7 @@ use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Shared\StopWords;
 use SeoBakery\Test\SeoObjects\Product;
 
-abstract class AbstractSeoAwareTest extends TestCase
+abstract class AbstractSeoAware extends TestCase
 {
     /**
      * Test subject

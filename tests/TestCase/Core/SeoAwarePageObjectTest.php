@@ -5,7 +5,7 @@ namespace SeoBakery\Test\TestCase\Core;
 
 use SeoBakery\Test\SeoObjects\AboutUsSeoPage;
 
-class SeoAwarePageObjectTest extends AbstractSeoAwareTest
+class SeoAwarePageObjectTest extends AbstractSeoAware
 {
     public function setUp(): void
     {

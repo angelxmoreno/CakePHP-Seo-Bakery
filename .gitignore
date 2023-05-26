@@ -8,3 +8,4 @@
 /.idea/
 docs/build
 webroot/coverage
+coverage.xml

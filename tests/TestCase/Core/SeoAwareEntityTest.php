@@ -7,7 +7,7 @@ use Cake\ORM\Table;
 use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Test\SeoObjects\Product;
 
-class SeoAwareEntityTest extends AbstractSeoAwareTest
+class SeoAwareEntityTest extends AbstractSeoAware
 {
     public function setUp(): void
     {

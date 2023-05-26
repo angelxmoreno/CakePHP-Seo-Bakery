@@ -7,7 +7,7 @@ use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Core\SeoAwareListViewObject;
 use SeoBakery\Test\SeoObjects\ProductsSeoListView;
 
-class SeoAwareListViewObjectTest extends AbstractSeoAwareTest
+class SeoAwareListViewObjectTest extends AbstractSeoAware
 {
     public function setUp(): void
     {
