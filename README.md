@@ -1,4 +1,6 @@
 # SeoBakery plugin for CakePHP
+[![codecov](https://codecov.io/gh/angelxmoreno/CakePHP-Seo-Bakery/branch/main/graph/badge.svg?token=CSTUPF7TQA)](https://codecov.io/gh/angelxmoreno/CakePHP-Seo-Bakery)
+
 Plugin is `currently in phase 5` of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
 
 ## Another CakePHP SEO Plugin? Why?
