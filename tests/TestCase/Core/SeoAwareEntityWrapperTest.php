@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace SeoBakery\Test\TestCase\Core;
 
-use Cake\ORM\Table;
+use SeoBakery\Core\SeoAwareEntityWrapper;
 use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Test\SeoObjects\Product;
 
-class SeoAwareEntityTest extends AbstractSeoAware
+class SeoAwareEntityWrapperTest extends AbstractSeoAware
 {
     public function setUp(): void
     {
@@ -17,33 +17,16 @@ class SeoAwareEntityTest extends AbstractSeoAware
             'name' => 'Product Alpha',
             'description' => 'description of product Alpha',
         ];
-        /** @var Table|SeoAwareInterface $object */
-        $object = $this->getTableInstance()->newEntity($this->data);
+        /** @var Product|SeoAwareInterface $entity */
+        $entity = $this->getTableInstance()->newEntity($this->data);
 
-        $this->object = $object;
+        $this->object = new SeoAwareEntityWrapper($entity, $this->getTableInstance());
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         unset($this->data);
-    }
-
-    protected function assertEntityTrait(array $data): void
-    {
-        /** @var Product $entity */
-        $entity = $this->Products->newEntity($data);
-
-        $this->assertSame($data['name'], $entity->buildMetaTitleFallback('view'));
-        $this->assertSame($data['description'], $entity->buildMetaDescriptionFallback('view'));
-        $this->assertEqualsCanonicalizing($this->createExpectedKeywordsFromArray($data), $entity->buildMetaKeywordsFallback('view'));
-        $this->assertTrue($entity->buildRobotsShouldIndex('view'));
-        $this->assertEqualsCanonicalizing([
-            'prefix' => false,
-            'plugin' => false,
-            'controller' => 'Products',
-        ], $entity->getPrefixPluginControllerArray());
-        $this->assertSame('/products/view/' . $data['id'], $entity->buildUrl('view'));
     }
 
     public function testBuildMetaTitleFallback(): void

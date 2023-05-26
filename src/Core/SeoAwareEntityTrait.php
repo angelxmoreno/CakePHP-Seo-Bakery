@@ -14,25 +14,19 @@ trait SeoAwareEntityTrait
     public function buildMetaTitleFallback(string $action): string
     {
         $builder = new Entity\MetaTitleBuilder();
-        /** @var EntityInterface $entity */
-        $entity = $this;
-        return $builder($entity, $action);
+        return $builder($this->getEntity(), $action);
     }
 
     public function buildMetaDescriptionFallback(string $action): string
     {
         $builder = new Entity\MetaDescriptionBuilder();
-        /** @var EntityInterface $entity */
-        $entity = $this;
-        return $builder($entity, $action);
+        return $builder($this->getEntity(), $action);
     }
 
     public function buildMetaKeywordsFallback(string $action): array
     {
         $builder = new Entity\MetaKeywordsBuilder();
-        /** @var EntityInterface $entity */
-        $entity = $this;
-        return $builder($entity, $action);
+        return $builder($this->getEntity(), $action);
     }
 
     public function buildRobotsShouldIndex(string $action): bool

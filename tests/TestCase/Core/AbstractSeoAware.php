@@ -21,6 +21,9 @@ abstract class AbstractSeoAware extends TestCase
     protected SeoAwareInterface $object;
     protected RouteBuilder $routeBuilder;
 
+    const TABLE_ALIAS = 'Products';
+    const ENTITY_CLASS = Product::class;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -30,14 +33,14 @@ abstract class AbstractSeoAware extends TestCase
             $routes->setRouteClass(DashedRoute::class);
             $routes->fallbacks();
         });
-        TableRegistry::getTableLocator()->set('Products', $this->getTableInstance());
+        TableRegistry::getTableLocator()->set(static::TABLE_ALIAS, $this->getTableInstance());
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         unset($this->routeBuilder, $this->object);
-        TableRegistry::getTableLocator()->remove('Products');
+        TableRegistry::getTableLocator()->remove(static::TABLE_ALIAS);
     }
 
     protected function getTableInstance(): Table
@@ -52,9 +55,9 @@ abstract class AbstractSeoAware extends TestCase
         ];
 
         $table = new Table([
-            'alias' => 'Products',
+            'alias' => static::TABLE_ALIAS,
             'schema' => $schema,
-            'entityClass' => Product::class,
+            'entityClass' => static::ENTITY_CLASS,
         ]);
         $table->setPrimaryKey('id');
         $table->setDisplayField('name');
