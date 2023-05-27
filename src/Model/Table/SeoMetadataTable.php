@@ -10,7 +10,11 @@ use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SeoBakery\Core\SeoAwareEntityTrait;
+use SeoBakery\Core\SeoAwareInterface;
+use SeoBakery\Core\SeoAwareListViewObject;
 use SeoBakery\Model\Entity\SeoMetadata;
+use SeoBakery\Shared\InstanceUses;
 
 /**
  * SeoMetadata Model
@@ -235,5 +239,41 @@ class SeoMetadataTable extends Table
                 0 => 'All',
                 null => 'None',
             ] + $tables;
+    }
+
+    public function fromSeoAwareObj(SeoAwareInterface $obj, string $action): ?SeoMetadata
+    {
+        $data = array_merge($obj->getPrefixPluginControllerArray(), [
+            'table_alias' => null,
+            'table_identifier' => null,
+            'name' => $obj->buildSeoName($action),
+            'action' => $action,
+
+            'meta_title_fallback' => $obj->buildMetaTitleFallback($action),
+            'meta_description_fallback' => $obj->buildMetaDescriptionFallback($action),
+            'meta_keywords_fallback' => $obj->buildMetaKeywordsFallback($action),
+            'noindex' => !$obj->buildRobotsShouldIndex($action),
+            'nofollow' => !$obj->buildRobotsShouldFollow($action),
+            'image_url' => $obj->buildImageUrl($action),
+            'image_alt' => $obj->buildImageAlt($action),
+        ]);
+        if (InstanceUses::check($obj, SeoAwareEntityTrait::class)) {
+            /** @var SeoAwareEntityTrait $obj */
+            $data['table_alias'] = $obj->getEntityTable()->getAlias();
+            $data['table_identifier'] = $obj->getPrimaryKeyValue();
+        }
+
+        if (is_subclass_of($obj, SeoAwareListViewObject::class)) {
+            /** @var SeoAwareListViewObject $obj */
+            $data['table_alias'] = $obj->getTable()->getAlias();
+        }
+
+        $entity = $this->findOrCreate([
+            'name' => $data['name'],
+        ]);
+
+        $entity = $this->patchEntity($entity, $data);
+        $this->save($entity);
+        return $entity;
     }
 }

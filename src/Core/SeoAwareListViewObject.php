@@ -17,7 +17,7 @@ abstract class SeoAwareListViewObject implements SeoAwareInterface
      */
     abstract protected function getTableName(): string;
 
-    protected function getTable(): Table
+    public function getTable(): Table
     {
         return TableRegistry::getTableLocator()->get($this->getTableName());
     }
@@ -65,5 +65,31 @@ abstract class SeoAwareListViewObject implements SeoAwareInterface
                 'action' => $action,
             ];
         return Router::url($url);
+    }
+
+    public function buildImageUrl(string $action): ?string
+    {
+        return null;
+    }
+
+    public function buildImageAlt(string $action): ?string
+    {
+        return null;
+    }
+
+    public function buildSeoName(string $action): string
+    {
+        return implode(':', [
+            $this->getTableName(),
+            $action,
+        ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function actions(): array
+    {
+        return ['index'];
     }
 }

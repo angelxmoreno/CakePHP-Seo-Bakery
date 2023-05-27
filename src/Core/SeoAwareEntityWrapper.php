@@ -29,7 +29,7 @@ class SeoAwareEntityWrapper implements SeoAwareInterface
         return $this->entity;
     }
 
-    protected function getEntityTable(): Table
+    public function getEntityTable(): Table
     {
         return $this->table;
     }

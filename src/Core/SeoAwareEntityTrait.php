@@ -74,4 +74,28 @@ trait SeoAwareEntityTrait
     {
         return $this->getEntity()->get($this->getEntityTable()->getPrimaryKey());
     }
+
+    public function buildImageUrl(string $action): ?string
+    {
+        return null;
+    }
+
+    public function buildImageAlt(string $action): ?string
+    {
+        return null;
+    }
+
+    public function buildSeoName(string $action): string
+    {
+        return implode(':', [
+            $this->getEntityTable()->getAlias(),
+            $action,
+            $this->getPrimaryKeyValue(),
+        ]);
+    }
+
+    public function actions(): array
+    {
+        return ['view'];
+    }
 }

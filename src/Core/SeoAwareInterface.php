@@ -18,4 +18,15 @@ interface SeoAwareInterface
     public function getPrefixPluginControllerArray(): array;
 
     public function buildUrl(string $action): string;
+
+    public function buildImageUrl(string $action): ?string;
+
+    public function buildImageAlt(string $action): ?string;
+
+    public function buildSeoName(string $action): string;
+
+    /**
+     * @return string[]
+     */
+    public function actions(): array;
 }
