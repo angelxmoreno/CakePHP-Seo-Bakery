@@ -6,7 +6,7 @@ namespace SeoBakery\Builder\Entity;
 use Cake\Datasource\EntityInterface;
 use SeoBakery\Builder\Base\EntityMetaBuilderBase;
 
-class MetaTitle extends EntityMetaBuilderBase
+class MetaTitleBuilder extends EntityMetaBuilderBase
 {
     protected static int $limit = 60;
 
@@ -14,7 +14,7 @@ class MetaTitle extends EntityMetaBuilderBase
     {
         $title = $this->getEntityDisplayName($entity);
         if ($action <> 'view') {
-            $title = ucfirst($action) . ' MetaTitle.php' . $title;
+            $title = ucfirst($action) . ' ' . $title;
         }
         return substr($title, 0, self::$limit);
     }

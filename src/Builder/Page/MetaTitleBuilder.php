@@ -5,7 +5,7 @@ namespace SeoBakery\Builder\Page;
 
 use SeoBakery\Builder\Base\PageMetaBuilderBase;
 
-class MetaTitle extends PageMetaBuilderBase
+class MetaTitleBuilder extends PageMetaBuilderBase
 {
     protected static int $limit = 60;
 

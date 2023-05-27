@@ -9,7 +9,6 @@ declare(strict_types=1);
  * installed as a dependency of an application.
  */
 
-use Cake\Datasource\ConnectionManager;
 use Migrations\TestSuite\Migrator;
 
 $findRoot = function ($root) {
@@ -38,15 +37,6 @@ require_once $root . '/vendor/autoload.php';
 require_once $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
 require $root . '/config/bootstrap.php';
 
-ConnectionManager::setConfig('test2', [
-    'className' => 'Cake\Database\Connection',
-    'driver' => 'Cake\Database\Driver\Sqlite',
-    'database' => 'test.sqlite',
-    'encoding' => 'utf8',
-    'cacheMetadata' => true,
-    'quoteIdentifiers' => false,
-]);
-ConnectionManager::alias('test', 'test2');
 $migrator = new Migrator();
 $migrator->run([
     'connection' => 'test',

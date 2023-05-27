@@ -8,6 +8,9 @@ use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use SeoBakery\Core\SeoAwareEntityWrapper;
+use SeoBakery\Core\SeoAwareInterface;
+use SeoBakery\Core\SeoAwareRegistry;
 use SeoBakery\Model\Entity\SeoMetadata;
 use SeoBakery\Shared\SeoMetadataTableAware;
 
@@ -24,19 +27,22 @@ class MetadataBehavior extends Behavior
      * @var array<string, mixed>
      */
     protected $_defaultConfig = [
-        'prefix' => null,
-        'plugin' => null,
-        'controller' => null,
         'actions' => ['view'],
         'identifierFunc' => 0,
-        'buildTitleFunc' => null,
-        'buildDescriptionFunc' => null,
-        'buildKeywordsFunc' => null,
-        'buildShouldIndexFunc' => null,
-        'buildShouldFollowFunc' => null,
-        'buildImageUrlFunc' => null,
-        'buildImageAltFunc' => null,
     ];
+
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
+        $this->addEntityToRegistry();
+    }
+
+    protected function addEntityToRegistry()
+    {
+        $entity = $this->table()->newEmptyEntity();
+        $entity = $this->wrapEntity($entity);
+        SeoAwareRegistry::add($entity);
+    }
 
     /**
      * @param EventInterface $event
@@ -55,14 +61,9 @@ class MetadataBehavior extends Behavior
     public function buildMetadataActions(EntityInterface $entity)
     {
         $actions = array_unique($this->getConfig('actions'));
-
+        $entity = $this->wrapEntity($entity);
         foreach ($actions as $action) {
-            $data = $this->buildMetaDataAction($entity, $action);
-            $seoMetadata = $this->getSeoMetadataTable()->findOrCreate([
-                'name' => $data['name'],
-            ]);
-            $seoMetadata = $this->getSeoMetadataTable()->patchEntity($seoMetadata, $data);
-            $this->getSeoMetadataTable()->saveOrFail($seoMetadata);
+            $this->getSeoMetadataTable()->fromSeoAwareObj($entity, $action);
         }
     }
 
@@ -85,8 +86,8 @@ class MetadataBehavior extends Behavior
         ];
         $exists = $this->getSeoMetadataTable()->exists($lookUp);
         if (!$exists) return null;
-        $identifierFunc = $this->getConfig('identifierFunc');
 
+        $identifierFunc = $this->getConfig('identifierFunc');
         if (is_callable($identifierFunc)) {
             $tableIdentifier = $identifierFunc($pass, $action);
         } else {
@@ -96,87 +97,12 @@ class MetadataBehavior extends Behavior
         return $this->getSeoMetadataTable()->find()->where($lookUp)->first();
     }
 
-    protected function buildMetaDataAction(EntityInterface $entity, string $action): array
+    /**
+     * @param EntityInterface $entity
+     * @return SeoAwareInterface|EntityInterface
+     */
+    protected function wrapEntity(EntityInterface $entity): SeoAwareInterface
     {
-        $data = [
-            'table_alias' => $this->table()->getAlias(),
-            'table_identifier' => $entity->get($this->table()->getPrimaryKey()),
-            'prefix' => $this->getConfig('prefix'),
-            'plugin' => $this->getConfig('plugin'),
-            'controller' => $this->getConfig('controller', $this->table()->getAlias()),
-            'action' => $action,
-            'meta_title_fallback' => $this->buildMetaTitle($entity, $action),
-            'meta_description_fallback' => $this->buildMetaDescription($entity, $action),
-            'meta_keywords_fallback' => $this->buildMetaKeywords($entity, $action),
-            'noindex' => !$this->buildShouldIndex($entity, $action),
-            'nofollow' => !$this->buildShouldFollow($entity, $action),
-            'image_url' => $this->buildImageUrl($entity, $action),
-            'image_alt' => $this->buildImageAlt($entity, $action),
-        ];
-
-        $data['name'] = implode(':', [
-            $data['table_alias'],
-            $data['action'],
-            $data['table_identifier'],
-        ]);
-
-        return $data;
-    }
-
-    protected function buildMetaTitle(EntityInterface $entity, string $action): ?string
-    {
-        $method = $this->getConfig('buildTitleFunc');
-        if ($method && is_callable($method)) return $method($entity, $action);
-        return $entity->get($this->table()->getDisplayField());
-    }
-
-    protected function buildMetaDescription(EntityInterface $entity, string $action): ?string
-    {
-        $method = $this->getConfig('buildDescriptionFunc');
-        if ($method && is_callable($method)) return $method($entity, $action);
-        return 'About ' . $this->buildMetaTitle($entity, $action);
-    }
-
-    protected function buildMetaKeywords(EntityInterface $entity, string $action): array
-    {
-        $method = $this->getConfig('buildKeywordsFunc');
-        if ($method && is_callable($method)) return $method($entity, $action);
-        return explode(' ', $this->buildMetaTitle($entity, $action));
-    }
-
-    protected function buildShouldIndex(EntityInterface $entity, string $action): bool
-    {
-        /** @var callable|bool|null $method */
-        $method = $this->getConfig('buildShouldIndexFunc');
-        if ($method && is_callable($method)) return (bool)$method($entity, $action);
-        if ($method && is_bool($method)) return $method;
-        return $action === 'view';
-    }
-
-    protected function buildShouldFollow(EntityInterface $entity, string $action): bool
-    {
-        /** @var callable|bool|null $method */
-        $method = $this->getConfig('buildShouldFollowFunc');
-        if ($method && is_callable($method)) return (bool)$method($entity, $action);
-        if ($method && is_bool($method)) return $method;
-        return $action === 'view';
-    }
-
-    protected function buildImageUrl(EntityInterface $entity, string $action): ?string
-    {
-        /** @var callable|bool|null $method */
-        $method = $this->getConfig('buildImageUrlFunc');
-        if ($method && is_callable($method)) return $method($entity, $action);
-        if ($method && is_string($method)) return $method;
-        return null;
-    }
-
-    protected function buildImageAlt(EntityInterface $entity, string $action): ?string
-    {
-        /** @var callable|bool|null $method */
-        $method = $this->getConfig('buildImageAltFunc');
-        if ($method && is_callable($method)) return $method($entity, $action);
-        if ($method && is_string($method)) return $method;
-        return null;
+        return new SeoAwareEntityWrapper($entity, $this->table());
     }
 }

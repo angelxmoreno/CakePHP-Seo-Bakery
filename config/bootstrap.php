@@ -17,16 +17,11 @@ $configDefaults = [
     'twitterSiteUsername' => null,
     'backFill' => [],
     'behaviorModels' => [],
-    'pages' => [],
-    'listViews' => [],
 ];
 
 $config = Configure::read(SeoBakeryPlugin::NAME, []);
 $config = array_merge($configDefaults, $config);
 $config['behaviorConfigs'] = SeoBakeryPlugin::buildBehaviorConfigs($config);
-$config['entityComponentConfigs'] = SeoBakeryPlugin::buildEntityComponentConfigs($config['behaviorConfigs']);
-$config['pagesComponentConfigs'] = SeoBakeryPlugin::buildPagesComponentConfigs($config['pages']);
-$config['listViewsComponentConfigs'] = SeoBakeryPlugin::buildListViewComponentConfigs($config['listViews']);
 Configure::write(SeoBakeryPlugin::NAME, $config);
 $listener = new SeoBakeryListener($config);
 EventManager::instance()->on($listener);
