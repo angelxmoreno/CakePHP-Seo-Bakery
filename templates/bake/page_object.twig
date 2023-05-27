@@ -11,14 +11,14 @@
 */
 class {{ name }}PageObject extends SeoAwarePageObject implements SeoAwareInterface
 {
-    /**
-    * returns the template path for the Pages template
-    * i.e. /profile/about or /contact
-    *
-    * @return string
-    */
-    public function getTemplateName(): string
-    {
-        return '{{ path }}';
-    }
+/**
+* returns the template path for the Pages template
+* i.e. /profile/about or /contact
+*
+* @return string
+*/
+public function getTemplateName(): string
+{
+return '{{ path }}';
+}
 }

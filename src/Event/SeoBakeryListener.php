@@ -51,21 +51,10 @@ class SeoBakeryListener implements EventListenerInterface
     {
         /** @var Controller $controller */
         $controller = $event->getSubject();
-        $name = $controller->getName();
         if ($controller->getPlugin() <> 'SeoBakery') {
             $controller->viewBuilder()->addHelper('SeoBakery.Metadata', $this->getConfig());
         }
 
-        if ($name === 'Pages' && !empty($this->getConfig('pagesComponentConfigs'))) {
-            $controller->loadComponent('SeoBakery.PagesMetadata', $this->getConfig('pagesComponentConfigs'));
-        }
-
-        if (array_key_exists($name, $this->getConfig('entityComponentConfigs'))) {
-            $controller->loadComponent('SeoBakery.EntityMetadata', $this->getConfig('entityComponentConfigs')[$name]);
-        }
-
-        if (array_key_exists($name, $this->getConfig('listViewsComponentConfigs'))) {
-            $controller->loadComponent('SeoBakery.ListViewMetadata', $this->getConfig('listViewsComponentConfigs')[$name]);
-        }
+        $controller->loadComponent('SeoBakery.Metadata');
     }
 }
