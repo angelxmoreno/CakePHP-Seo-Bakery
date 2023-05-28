@@ -224,7 +224,11 @@ class SeoMetadataTable extends Table
         $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
         $rules->add($rules->isUnique(['canonical'], ['allowMultipleNulls' => true]), ['errorField' => 'canonical']);
         $rules->add($rules->isUnique(['uri'], ['allowMultipleNulls' => true]), ['errorField' => 'uri']);
-        $rules->add($rules->isUnique(['table_alias', 'table_identifier', 'action'], ['allowMultipleNulls' => true]), ['errorField' => 'table_alias']);
+        $rules->add($rules->isUnique([
+            'table_alias', 'table_identifier', 'action',
+        ], [
+            'allowMultipleNulls' => true,
+        ]), ['errorField' => 'table_alias']);
 
         return $rules;
     }

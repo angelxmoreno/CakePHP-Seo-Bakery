@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Test suite bootstrap for SeoBakery.
  *
@@ -9,6 +7,8 @@ declare(strict_types=1);
  * has been installed as a dependency of the plugin, or the plugin is itself
  * installed as a dependency of an application.
  */
+
+declare(strict_types=1);
 
 use Migrations\TestSuite\Migrator;
 

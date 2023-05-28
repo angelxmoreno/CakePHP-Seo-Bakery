@@ -53,10 +53,17 @@ class DashboardHelper extends Helper
             },
             'actions' => function (SeoMetadata $entity) {
                 return $this->Html->div('', implode("\n", [
-                        $this->Html->link(__('View'), ['action' => 'view', $entity->id], ['class' => 'btn btn-sm btn-primary']),
-                        $this->Html->link(__('Edit'), ['action' => 'edit', $entity->id], ['class' => 'btn btn-sm btn-info']),
-                        $this->Form->postLink(__('Delete'), ['action' => 'delete', $entity->id], ['class' => 'btn btn-sm btn-danger', 'confirm' => __('Are you sure you want to delete # {0}?', $entity->id)]),
-                    ]));
+                    $this->Html->link(__('View'), ['action' => 'view', $entity->id], [
+                        'class' => 'btn btn-sm btn-primary',
+                    ]),
+                    $this->Html->link(__('Edit'), ['action' => 'edit', $entity->id], [
+                        'class' => 'btn btn-sm btn-info',
+                    ]),
+                    $this->Form->postLink(__('Delete'), ['action' => 'delete', $entity->id], [
+                        'class' => 'btn btn-sm btn-danger',
+                        'confirm' => __('Are you sure you want to delete # {0}?', $entity->id),
+                    ]),
+                ]));
             },
         ]);
     }

@@ -86,7 +86,10 @@ class SeoMetadataController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
-            $data['meta_keywords'] = is_string($data['meta_keywords']) ? explode(',', $data['meta_keywords']) : $data['meta_keywords'];
+            $data['meta_keywords'] = is_string($data['meta_keywords'])
+                ? explode(',', $data['meta_keywords'])
+                : $data['meta_keywords'];
+
             $seoMetadata = $this->SeoMetadata->patchEntity($seoMetadata, $data);
             if ($this->SeoMetadata->save($seoMetadata)) {
                 $this->Flash->success(__('The seo metadata has been saved.'));

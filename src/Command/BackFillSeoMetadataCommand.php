@@ -28,8 +28,6 @@ class BackFillSeoMetadataCommand extends Command
 {
     use InstanceConfigTrait;
 
-    protected array $_defaultConfig = [];
-
     public static function defaultName(): string
     {
         return 'seo:backfill';
