@@ -59,8 +59,8 @@ class SeoMetadataController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Seo Metadata id.
-     * @return Response|null|void Renders view
+     * @param string|null|mixed $id Seo Metadata id.
+     * @return void Renders view
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
@@ -112,11 +112,9 @@ class SeoMetadataController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $seoMetadata = $this->SeoMetadata->get($id);
-        if ($this->SeoMetadata->delete($seoMetadata)) {
-            $this->Flash->success(__('The seo metadata has been deleted.'));
-        } else {
-            $this->Flash->error(__('The seo metadata could not be deleted. Please, try again.'));
-        }
+        $this->SeoMetadata->delete($seoMetadata)
+            ? $this->Flash->success(__('The seo metadata has been deleted.'))
+            : $this->Flash->error(__('The seo metadata could not be deleted. Please, try again.'));
 
         return $this->redirect(['action' => 'index']);
     }

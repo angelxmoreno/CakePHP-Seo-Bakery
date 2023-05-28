@@ -122,8 +122,8 @@ class MetadataHelper extends Helper
             'url' => $this->seoMetadata->canonical ?? $this->getView()->getRequest()->getRequestTarget(),
         ];
 
-        if ($siteName = $this->getConfig('siteName')) {
-            $names['site_name'] = $siteName;
+        if ($this->getConfig('siteName')) {
+            $names['site_name'] = $this->getConfig('siteName');
         }
 
         if ($this->seoMetadata->has('image_url')) {

@@ -73,9 +73,8 @@ class SeoAwareRegistry
                     /** @var Table&MetadataBehavior $table */
                     $table = $instance->getEntityTable();
                     return $table->fetchMetaDataByRequest(compact('request'));
-                } else {
-                    return self::getSeoMetadataTable()->fromSeoAwareObj($seoAwareItem->getInstance(), $action);
                 }
+                return self::getSeoMetadataTable()->fromSeoAwareObj($seoAwareItem->getInstance(), $action);
             }
         }
         return null;

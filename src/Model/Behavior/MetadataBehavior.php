@@ -95,11 +95,7 @@ class MetadataBehavior extends Behavior
         }
 
         $identifierFunc = $this->getConfig('identifierFunc');
-        if (is_callable($identifierFunc)) {
-            $tableIdentifier = $identifierFunc($pass, $action);
-        } else {
-            $tableIdentifier = $pass[$identifierFunc];
-        }
+        $tableIdentifier = is_callable($identifierFunc) ? $identifierFunc($pass, $action) : $pass[$identifierFunc];
         $lookUp['table_identifier'] = $tableIdentifier;
         return $this->getSeoMetadataTable()->find()->where($lookUp)->first();
     }
