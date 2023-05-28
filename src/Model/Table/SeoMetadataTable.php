@@ -189,25 +189,15 @@ class SeoMetadataTable extends Table
             ->isArray('meta_keywords')
             ->allowEmptyArray('meta_keywords');
 
-        $validator
-            ->isArray('meta_keywords_fallback')
-            ->allowEmptyString('meta_keywords_fallback');
+        $validator->isArray('meta_keywords_fallback')->allowEmptyString('meta_keywords_fallback');
 
-        $validator
-            ->boolean('noindex')
-            ->allowEmptyString('noindex');
+        $validator->boolean('noindex')->allowEmptyString('noindex');
 
-        $validator
-            ->boolean('nofollow')
-            ->allowEmptyString('nofollow');
+        $validator->boolean('nofollow')->allowEmptyString('nofollow');
 
-        $validator
-            ->scalar('image_url')
-            ->allowEmptyString('image_url');
+        $validator->scalar('image_url')->allowEmptyString('image_url');
 
-        $validator
-            ->scalar('image_alt')
-            ->allowEmptyString('image_alt');
+        $validator->scalar('image_alt')->allowEmptyString('image_alt');
 
         return $validator;
     }

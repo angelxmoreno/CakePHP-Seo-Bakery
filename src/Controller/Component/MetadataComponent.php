@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SeoBakery\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Event\EventInterface;
 use Cake\Http\ServerRequest;
 use SeoBakery\Core\SeoAwareRegistry;
 use SeoBakery\Shared\SeoMetadataTableAware;
@@ -30,7 +29,7 @@ class MetadataComponent extends Component
         SeoAwareRegistry::scan();
     }
 
-    public function beforeRender(EventInterface $event)
+    public function beforeRender()
     {
         $controller = $this->getController();
         $path = $this->getRequest()->getUri()->getPath();

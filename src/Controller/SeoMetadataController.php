@@ -44,11 +44,11 @@ class SeoMetadataController extends AppController
 
         $optimized = $this->getRequest()->getQuery('optimized', false);
         if (in_array($optimized, ['True', 'False'])) {
-            $is = $optimized === 'True' ? 'IS NOT' : 'IS';
+            $suffix = $optimized === 'True' ? 'IS NOT' : 'IS';
             $query->where([
-                'canonical ' . $is => null,
-                'meta_title ' . $is => null,
-                'meta_description ' . $is => null,
+                'canonical ' . $suffix => null,
+                'meta_title ' . $suffix => null,
+                'meta_description ' . $suffix => null,
             ]);
         }
 
