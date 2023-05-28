@@ -1,0 +1,15 @@
+{
+    "name": "seo-bakery",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/angelxmoreno/CakePHP-Seo-Bakery.git",
+    "author": "Angel S. Moreno <angelxmoreno@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "lint": "eslint webroot",
+        "lint:fix": "eslint webroot --fix"
+    },
+    "devDependencies": {
+        "eslint": "^8.41.0"
+    }
+}
