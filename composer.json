@@ -34,11 +34,14 @@
         "check": [
             "@test",
             "@cs-check",
-            "@md-check"
+            "@md-check",
+            "@js-check"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "md-check": "phpmd src text ruleset"
+        "md-check": "phpmd src text ruleset",
+        "js-check": "yarn lint",
+        "js-fix": "yarn lint:fix"
     },
     "config": {
         "allow-plugins": {

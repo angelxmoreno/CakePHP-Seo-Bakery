@@ -10,7 +10,6 @@
     <file>./src</file>
     <file>./tests</file>
     <file>./templates</file>
-    <file>./webroot</file>
 
     <exclude-pattern>*/webroot/coverage/*</exclude-pattern>
     <exclude-pattern>*/docs/build/*</exclude-pattern>

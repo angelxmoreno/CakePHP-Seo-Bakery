@@ -128,12 +128,12 @@ class BackFillSeoMetadataCommand extends Command
             $results = $query->cleanCopy()->page($page, $limit);
             foreach ($results as $index => $result) {
                 $this->io->out("\t" . sprintf(
-                        'Processing %s %s of %s: "%s"',
-                        $tableAlias,
-                        Number::format((($page - 1) * $limit) + $index + 1),
-                        Number::format($count),
-                        $result->get($table->getDisplayField())
-                    ));
+                    'Processing %s %s of %s: "%s"',
+                    $tableAlias,
+                    Number::format((($page - 1) * $limit) + $index + 1),
+                    Number::format($count),
+                    $result->get($table->getDisplayField())
+                ));
                 $table->buildMetadataActions($result);
             }
         }
