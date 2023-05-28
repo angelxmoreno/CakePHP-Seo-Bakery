@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/angelxmoreno/CakePHP-Seo-Bakery/branch/main/graph/badge.svg?token=CSTUPF7TQA)](https://codecov.io/gh/angelxmoreno/CakePHP-Seo-Bakery?utm_source=gh)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/635bae4673c044299f7bd2b9f19d9f71)](https://app.codacy.com/gh/angelxmoreno/CakePHP-Seo-Bakery/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-Plugin is `currently in phase 5` of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
+Plugin is `currently in phase 6` of development. Find me in the [CakePHP Slack channel](https://cakesf.slack.com/archives/D267RHJAH)
 
 ## Another CakePHP SEO Plugin? Why?
 During the years I've come across a few CakePHP SEO plugins that served as amazing drop-in solutions for MVP apps. However,
@@ -48,9 +48,8 @@ Phase one focuses on delivering the MVP of the plugin. It allows the ability to 
 - [X] Add Twitter cards data
 
 ### Phase 5: Robots.txt & Sitemaps
-- [ ] Create Robots controller
-- [ ] Behavior for creating sitemap entries
-- [ ] Create Sitemaps controller
+- [X] Create Robots controller
+- [X] Create Sitemaps controller
 
 ### Phase 6: ChatGPT suggestions
 #### Todos
