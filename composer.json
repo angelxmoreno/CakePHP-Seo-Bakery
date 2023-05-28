@@ -30,9 +30,12 @@
     "scripts": {
         "test": "phpunit --colors=always",
         "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html webroot/coverage",
-        "sniff": "phpcs --colors -p --standard=PSR12 src/ tests/ config/ docs/ templates/ webroot/",
-        "sniff:summary": "phpcs --colors -p --standard=PSR12 --report=summary src/ tests/ config/ docs/ templates/ webroot/",
-        "fix": "phpcbf --colors -p --standard=PSR12 src/ tests/ config/ docs/ templates/ webroot/"
+        "check": [
+            "@test",
+            "@cs-check"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf"
     },
     "config": {
         "allow-plugins": {
