@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Command;
-
 
 use Bake\Command\SimpleBakeCommand;
 use Cake\Console\Arguments;

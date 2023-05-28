@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Test\SeoObjects;
@@ -12,5 +13,4 @@ use Cake\ORM\Entity;
  */
 class Product extends Entity
 {
-
 }

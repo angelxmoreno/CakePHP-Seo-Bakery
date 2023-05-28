@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Shared;
@@ -17,4 +18,3 @@ class InstanceUses
         return in_array($trait, class_uses($instance), true);
     }
 }
-

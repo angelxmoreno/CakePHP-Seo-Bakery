@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Command;
@@ -107,7 +108,9 @@ class BackFillSeoMetadataCommand extends Command
     protected function backFillAll()
     {
         $tableAliases = array_keys($this->getConfig('behaviorConfigs'));
-        foreach ($tableAliases as $tableAlias) $this->backFillModel($tableAlias);
+        foreach ($tableAliases as $tableAlias) {
+            $this->backFillModel($tableAlias);
+        }
     }
 
     protected function backFillModel(string $tableAlias)
@@ -129,12 +132,12 @@ class BackFillSeoMetadataCommand extends Command
             $results = $query->cleanCopy()->page($page, $limit);
             foreach ($results as $index => $result) {
                 $this->io->out("\t" . sprintf(
-                        'Processing %s %s of %s: "%s"',
-                        $tableAlias,
-                        Number::format((($page - 1) * $limit) + $index + 1),
-                        Number::format($count),
-                        $result->get($table->getDisplayField())
-                    ));
+                    'Processing %s %s of %s: "%s"',
+                    $tableAlias,
+                    Number::format((($page - 1) * $limit) + $index + 1),
+                    Number::format($count),
+                    $result->get($table->getDisplayField())
+                ));
                 $table->buildMetadataActions($result);
             }
         }

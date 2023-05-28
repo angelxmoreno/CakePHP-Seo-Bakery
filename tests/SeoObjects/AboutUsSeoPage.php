@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Test\SeoObjects;
@@ -18,5 +19,4 @@ class AboutUsSeoPage extends SeoAwarePageObject implements SeoAwareInterface
     {
         return '/profile/about';
     }
-
 }

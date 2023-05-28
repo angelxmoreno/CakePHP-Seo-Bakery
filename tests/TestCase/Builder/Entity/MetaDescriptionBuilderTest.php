@@ -5,6 +5,7 @@ namespace SeoBakery\Test\TestCase\Builder\Entity;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use SeoBakery\Builder\Entity\MetaDescriptionBuilder;
+
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertSame;
 

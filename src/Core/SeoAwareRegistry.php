@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Core;
@@ -51,7 +52,9 @@ class SeoAwareRegistry
         $pass = $attrs['params']['pass'];
         $key = self::keyFromRouteArray($attrs['params']);
         $group = self::$objects[$key] ?? null;
-        if (is_null($group)) return null;
+        if (is_null($group)) {
+            return null;
+        }
         foreach ($group as $seoAwareItem) {
             if (in_array($action, $seoAwareItem->getActions())) {
                 $type = $seoAwareItem->getType();

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\View\Helper;
@@ -89,7 +90,9 @@ class MetadataHelper extends Helper
 
     protected function createTwitterCard()
     {
-        if (!$this->getConfig('twitterSiteUsername')) return;
+        if (!$this->getConfig('twitterSiteUsername')) {
+            return;
+        }
         $names = [
             'card' => 'summary_large_image',
             'site' => '@' . $this->getConfig('twitterSiteUsername'),

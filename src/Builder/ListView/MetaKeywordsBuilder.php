@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Builder\ListView;
@@ -24,5 +25,4 @@ class MetaKeywordsBuilder extends ListViewMetaBuilderBase
         $content = implode(' ', $contentArray);
         return $this->extractKeywordByOccurrence($content, self::$limit);
     }
-
 }
