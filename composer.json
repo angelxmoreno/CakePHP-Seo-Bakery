@@ -13,7 +13,8 @@
         "cakephp/migrations": "^3.8",
         "cakephp/app": "^4.4",
         "cakephp/cakephp": "^4.4",
-        "cakephp/bake": "^2.9"
+        "cakephp/bake": "^2.9",
+        "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +29,10 @@
     },
     "scripts": {
         "test": "phpunit --colors=always",
-        "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html webroot/coverage"
+        "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html webroot/coverage",
+        "sniff": "phpcs --colors -p --standard=PSR12 src/ tests/ config/ docs/ templates/ webroot/",
+        "sniff:summary": "phpcs --colors -p --standard=PSR12 --report=summary src/ tests/ config/ docs/ templates/ webroot/",
+        "fix": "phpcbf --colors -p --standard=PSR12 src/ tests/ config/ docs/ templates/ webroot/"
     },
     "config": {
         "allow-plugins": {
