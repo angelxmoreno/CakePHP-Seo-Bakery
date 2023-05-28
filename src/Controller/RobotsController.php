@@ -5,6 +5,7 @@ namespace SeoBakery\Controller;
 
 use Cake\Core\Configure;
 use Cake\Http\Response;
+use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use SeoBakery\SeoBakeryPlugin;
 
@@ -30,7 +31,7 @@ class RobotsController extends AppController
             }
             $output[] = "";
         }
-//        $output[] = sprintf('Sitemap: %s', Router::url(Configure::read('Seo.paths.sitemapIndex'), true));
+        $output[] = sprintf('Sitemap: %s', Router::url(Configure::read(SeoBakeryPlugin::NAME . '.sitemapIndexPath'), true));
 
         return $this->getResponse()->withType('text')->withStringBody(implode("\n", $output));
     }

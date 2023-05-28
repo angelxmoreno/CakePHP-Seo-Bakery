@@ -65,12 +65,12 @@ trait SeoAwareEntityTrait
         return $this;
     }
 
-    protected function getEntityTable(): Table
+    public function getEntityTable(): Table
     {
         return TableRegistry::getTableLocator()->get($this->getEntity()->getSource());
     }
 
-    protected function getPrimaryKeyValue()
+    public function getPrimaryKeyValue()
     {
         return $this->getEntity()->get($this->getEntityTable()->getPrimaryKey());
     }

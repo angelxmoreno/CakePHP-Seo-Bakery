@@ -126,6 +126,12 @@ class SeoMetadataTable extends Table
             ->add('canonical', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
+            ->scalar('uri')
+            ->maxLength('uri', 500)
+            ->allowEmptyString('uri')
+            ->add('uri', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
             ->scalar('table_alias')
             ->maxLength('table_alias', 100)
             ->allowEmptyString('table_alias');
@@ -216,6 +222,7 @@ class SeoMetadataTable extends Table
     {
         $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
         $rules->add($rules->isUnique(['canonical'], ['allowMultipleNulls' => true]), ['errorField' => 'canonical']);
+        $rules->add($rules->isUnique(['uri'], ['allowMultipleNulls' => true]), ['errorField' => 'uri']);
         $rules->add($rules->isUnique(['table_alias', 'table_identifier', 'action'], ['allowMultipleNulls' => true]), ['errorField' => 'table_alias']);
 
         return $rules;
@@ -256,6 +263,7 @@ class SeoMetadataTable extends Table
             'nofollow' => !$obj->buildRobotsShouldFollow($action),
             'image_url' => $obj->buildImageUrl($action),
             'image_alt' => $obj->buildImageAlt($action),
+            'uri' => $obj->buildUrl($action),
         ]);
         if (InstanceUses::check($obj, SeoAwareEntityTrait::class)) {
             /** @var SeoAwareEntityTrait $obj */

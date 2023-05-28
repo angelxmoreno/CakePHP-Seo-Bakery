@@ -78,6 +78,22 @@ class SeoAwareRegistry
         return null;
     }
 
+    /**
+     * @return SeoAwareItem[]
+     */
+    public static function getItems(): array
+    {
+        $items = [];
+        foreach (self::$objects as $group) {
+            foreach ($group as $item) {
+                $items[$item->getType()] = $items[$item->getType()] ?? [];
+                $items[$item->getType()][] = $item;
+            }
+        }
+
+        return $items;
+    }
+
     protected static function keyFromRouteArray(array $route): string
     {
         return sprintf('%s:%s:%s', $route['prefix'] ?? null, $route['plugin'], $route['controller']);

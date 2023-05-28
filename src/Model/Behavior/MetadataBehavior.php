@@ -8,10 +8,12 @@ use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use SeoBakery\Core\SeoAwareEntityTrait;
 use SeoBakery\Core\SeoAwareEntityWrapper;
 use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Core\SeoAwareRegistry;
 use SeoBakery\Model\Entity\SeoMetadata;
+use SeoBakery\Shared\InstanceUses;
 use SeoBakery\Shared\SeoMetadataTableAware;
 
 /**
@@ -61,7 +63,9 @@ class MetadataBehavior extends Behavior
     public function buildMetadataActions(EntityInterface $entity)
     {
         $actions = array_unique($this->getConfig('actions'));
-        $entity = $this->wrapEntity($entity);
+        if (!InstanceUses::check($entity, SeoAwareEntityTrait::class)) {
+            $entity = $this->wrapEntity($entity);
+        }
         foreach ($actions as $action) {
             $this->getSeoMetadataTable()->fromSeoAwareObj($entity, $action);
         }

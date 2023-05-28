@@ -59,13 +59,37 @@ class SeoBakeryPlugin extends BasePlugin
      */
     public function routes(RouteBuilder $routes): void
     {
-        $robotsPath = Configure::read(self::NAME . '.robotsPath', '/robots.txt');
+        $robotsPath = Configure::read(self::NAME . '.robotsPath');
+        $sitemapIndexPath = Configure::read(self::NAME . '.sitemapIndexPath');
         $routes->connect($robotsPath, [
             'prefix' => false,
             'plugin' => 'SeoBakery',
             'controller' => 'Robots',
             'action' => 'display',
         ]);
+
+        $routes->connect($sitemapIndexPath, [
+            'prefix' => false,
+            'plugin' => 'SeoBakery',
+            'controller' => 'Sitemaps',
+            'action' => 'index',
+        ]);
+
+        $routes->connect('/sitemaps/sitemap-{alias}-{page}.xml', [
+            'prefix' => false,
+            'plugin' => 'SeoBakery',
+            'controller' => 'Sitemaps',
+            'action' => 'entities',
+        ])
+            ->setPatterns(['page' => '\d+'])
+            ->setPass(['alias', 'page']);
+
+        $routes->connect('/sitemaps/sitemap-{action}.xml', [
+            'prefix' => false,
+            'plugin' => 'SeoBakery',
+            'controller' => 'Sitemaps',
+        ]);
+
         $routes->plugin(
             'SeoBakery',
             ['path' => '/seo-bakery'],
