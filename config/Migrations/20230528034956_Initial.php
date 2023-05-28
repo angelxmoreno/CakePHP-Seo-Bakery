@@ -35,6 +35,11 @@ class Initial extends AbstractMigration
                 'limit' => 500,
                 'null' => true,
             ])
+            ->addColumn('uri', 'string', [
+                'default' => null,
+                'limit' => 500,
+                'null' => true,
+            ])
             ->addColumn('table_alias', 'string', [
                 'default' => null,
                 'limit' => 100,
@@ -107,6 +112,16 @@ class Initial extends AbstractMigration
                 'null' => true,
             ])
             ->addColumn('nofollow', 'boolean', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('image_url', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('image_alt', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,

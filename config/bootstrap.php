@@ -7,6 +7,8 @@ use SeoBakery\Event\SeoBakeryListener;
 use SeoBakery\SeoBakeryPlugin;
 
 $configDefaults = [
+    'sitemapIndexPath' => '/sitemap-index.xml',
+    'sitemapTableLimit' => 500,
     'robotsPath' => '/robots.txt',
     'robotRules' => [
         '*' => [

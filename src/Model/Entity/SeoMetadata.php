@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string|null $canonical
+ * @property string|null $uri
  * @property string|null $table_alias
  * @property int|null $table_identifier
  * @property string|null $prefix
@@ -46,6 +47,7 @@ class SeoMetadata extends Entity
     protected $_accessible = [
         'name' => true,
         'canonical' => true,
+        'uri' => true,
         'table_alias' => true,
         'table_identifier' => true,
         'prefix' => true,
@@ -80,5 +82,10 @@ class SeoMetadata extends Entity
     public function getMetaKeywordsOrFallback(): ?array
     {
         return $this->meta_keywords ?? $this->meta_keywords_fallback;
+    }
+
+    public function getCanonicalOrFallback(): ?string
+    {
+        return $this->canonical ?? $this->uri;
     }
 }
