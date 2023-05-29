@@ -37,7 +37,7 @@ require_once $root . '/vendor/autoload.php';
  */
 require_once $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
 require $root . '/config/bootstrap.php';
-
+const SEO_OBJ_DIR = __DIR__ . DIRECTORY_SEPARATOR . 'SeoObjects' . DIRECTORY_SEPARATOR;
 $migrator = new Migrator();
 $migrator->run([
     'connection' => 'test',

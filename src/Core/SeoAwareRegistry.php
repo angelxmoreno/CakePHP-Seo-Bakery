@@ -19,22 +19,42 @@ class SeoAwareRegistry
      * @var SeoAwareItem[][]
      */
     public static array $objects = [];
+    public static ?string $seoClassPath = null;
+    public static ?string $seoClassNS = null;
+
+    public static function clear(): void
+    {
+        self::$objects = [];
+    }
 
     public static function scan()
     {
-        $path = current(App::classPath('Seo'));
+        $path = self::getSeoClassPath();
         $suffix = '*Object.php';
-        $classPaths = glob($path . $suffix);
+        $glob = $path . $suffix;
+        $classPaths = glob($glob);
         array_map(function (string $classPath) use ($path, $suffix) {
             $fileName = str_replace($path, '', $classPath);
             $className = str_replace('.php', '', $fileName);
             $shortClassname = str_replace('/', '\\', $className);
-            $fullClassname = Configure::read('App.namespace') . '\\Seo\\' . $shortClassname;
+            $fullClassname = self::getSeoClassNamespace() . $shortClassname;
 
             /** @var SeoAwareInterface $instance */
             $instance = new $fullClassname();
             self::add($instance);
         }, $classPaths);
+    }
+
+    protected static function getSeoClassPath(): string
+    {
+        $path = self::$seoClassPath ?? current(App::classPath('Seo'));
+        return rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+
+    protected static function getSeoClassNamespace(): string
+    {
+        $ns = self::$seoClassNS ?? Configure::read('App.namespace') . '\\Seo\\';
+        return rtrim($ns, '\\') . '\\';
     }
 
     public static function add(SeoAwareInterface $instance)

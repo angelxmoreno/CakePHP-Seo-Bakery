@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace SeoBakery\Test\TestCase\Core;
 
-use SeoBakery\Test\SeoObjects\AboutUsSeoPage;
+use SeoBakery\Test\SeoObjects\AboutUsSeoPageObject;
 
 class SeoAwarePageObjectTest extends AbstractSeoAware
 {
     public function setUp(): void
     {
         parent::setUp();
-        $this->object = new AboutUsSeoPage();
+        $this->object = new AboutUsSeoPageObject();
     }
 
     public function testBuildMetaTitleFallback(): void

@@ -7,7 +7,7 @@ namespace SeoBakery\Test\SeoObjects;
 use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Core\SeoAwarePageObject;
 
-class AboutUsSeoPage extends SeoAwarePageObject implements SeoAwareInterface
+class AboutUsSeoPageObject extends SeoAwarePageObject implements SeoAwareInterface
 {
     /**
      * returns the template path for the Pages template

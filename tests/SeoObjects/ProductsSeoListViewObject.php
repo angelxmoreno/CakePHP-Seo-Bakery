@@ -7,7 +7,7 @@ namespace SeoBakery\Test\SeoObjects;
 use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Core\SeoAwareListViewObject;
 
-class ProductsSeoListView extends SeoAwareListViewObject implements SeoAwareInterface
+class ProductsSeoListViewObject extends SeoAwareListViewObject implements SeoAwareInterface
 {
     protected function getTableName(): string
     {

@@ -51,7 +51,7 @@ class BackFillSeoMetadataCommand extends Command
         $parser = parent::buildOptionParser($parser);
         $tableAliases = array_keys($this->getConfig('behaviorConfigs'));
         $tableAliases[] = 'all';
-
+        $parser->setDescription('Creates SeoMetadata entries for entities');
         $parser->addArgument('tableAlias', [
             'help' => 'The table alias of a registered model or all.',
             'required' => true,
