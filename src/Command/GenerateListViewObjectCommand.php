@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Command;
-
 
 use Bake\Command\SimpleBakeCommand;
 
@@ -11,7 +11,6 @@ use Bake\Command\SimpleBakeCommand;
  */
 class GenerateListViewObjectCommand extends SimpleBakeCommand
 {
-
     public $pathFragment = 'Seo/';
 
     public static function defaultName(): string

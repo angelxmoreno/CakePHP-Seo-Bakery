@@ -5,6 +5,7 @@ namespace SeoBakery\Test\TestCase\Builder\ListView;
 use Cake\ORM\Table;
 use Cake\TestSuite\TestCase;
 use SeoBakery\Builder\ListView\MetaDescriptionBuilder;
+
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertSame;
 

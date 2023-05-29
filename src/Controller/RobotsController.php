@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Controller;
@@ -31,7 +32,10 @@ class RobotsController extends AppController
             }
             $output[] = "";
         }
-        $output[] = sprintf('Sitemap: %s', Router::url(Configure::read(SeoBakeryPlugin::NAME . '.sitemapIndexPath'), true));
+        $output[] = sprintf(
+            'Sitemap: %s',
+            Router::url(Configure::read(SeoBakeryPlugin::NAME . '.sitemapIndexPath'), true)
+        );
 
         return $this->getResponse()->withType('text')->withStringBody(implode("\n", $output));
     }

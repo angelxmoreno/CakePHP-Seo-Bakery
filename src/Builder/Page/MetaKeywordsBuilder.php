@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Builder\Page;
@@ -13,5 +14,4 @@ class MetaKeywordsBuilder extends PageMetaBuilderBase
     {
         return $this->extractKeywordByOccurrence($this->humanizeAliasSingle($template), self::$limit);
     }
-
 }

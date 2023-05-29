@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Test\TestCase\Core;
@@ -21,8 +22,8 @@ abstract class AbstractSeoAware extends TestCase
     protected SeoAwareInterface $object;
     protected RouteBuilder $routeBuilder;
 
-    const TABLE_ALIAS = 'Products';
-    const ENTITY_CLASS = Product::class;
+    public const TABLE_ALIAS = 'Products';
+    public const ENTITY_CLASS = Product::class;
 
     public function setUp(): void
     {

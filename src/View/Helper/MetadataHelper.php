@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\View\Helper;
@@ -89,7 +90,9 @@ class MetadataHelper extends Helper
 
     protected function createTwitterCard()
     {
-        if (!$this->getConfig('twitterSiteUsername')) return;
+        if (!$this->getConfig('twitterSiteUsername')) {
+            return;
+        }
         $names = [
             'card' => 'summary_large_image',
             'site' => '@' . $this->getConfig('twitterSiteUsername'),
@@ -119,8 +122,8 @@ class MetadataHelper extends Helper
             'url' => $this->seoMetadata->canonical ?? $this->getView()->getRequest()->getRequestTarget(),
         ];
 
-        if ($siteName = $this->getConfig('siteName')) {
-            $names['site_name'] = $siteName;
+        if ($this->getConfig('siteName')) {
+            $names['site_name'] = $this->getConfig('siteName');
         }
 
         if ($this->seoMetadata->has('image_url')) {

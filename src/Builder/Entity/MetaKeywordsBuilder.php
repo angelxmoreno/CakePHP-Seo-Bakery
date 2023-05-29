@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Builder\Entity;
@@ -17,5 +18,4 @@ class MetaKeywordsBuilder extends EntityMetaBuilderBase
         $content = $content . ' ' . $descriptionBuilder($entity, $action);
         return $this->extractKeywordByOccurrence($content, self::$limit);
     }
-
 }

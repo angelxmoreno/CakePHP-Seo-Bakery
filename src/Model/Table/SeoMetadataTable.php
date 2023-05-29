@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Model\Table;
@@ -188,25 +189,15 @@ class SeoMetadataTable extends Table
             ->isArray('meta_keywords')
             ->allowEmptyArray('meta_keywords');
 
-        $validator
-            ->isArray('meta_keywords_fallback')
-            ->allowEmptyString('meta_keywords_fallback');
+        $validator->isArray('meta_keywords_fallback')->allowEmptyString('meta_keywords_fallback');
 
-        $validator
-            ->boolean('noindex')
-            ->allowEmptyString('noindex');
+        $validator->boolean('noindex')->allowEmptyString('noindex');
 
-        $validator
-            ->boolean('nofollow')
-            ->allowEmptyString('nofollow');
+        $validator->boolean('nofollow')->allowEmptyString('nofollow');
 
-        $validator
-            ->scalar('image_url')
-            ->allowEmptyString('image_url');
+        $validator->scalar('image_url')->allowEmptyString('image_url');
 
-        $validator
-            ->scalar('image_alt')
-            ->allowEmptyString('image_alt');
+        $validator->scalar('image_alt')->allowEmptyString('image_alt');
 
         return $validator;
     }
@@ -223,7 +214,11 @@ class SeoMetadataTable extends Table
         $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
         $rules->add($rules->isUnique(['canonical'], ['allowMultipleNulls' => true]), ['errorField' => 'canonical']);
         $rules->add($rules->isUnique(['uri'], ['allowMultipleNulls' => true]), ['errorField' => 'uri']);
-        $rules->add($rules->isUnique(['table_alias', 'table_identifier', 'action'], ['allowMultipleNulls' => true]), ['errorField' => 'table_alias']);
+        $rules->add($rules->isUnique([
+            'table_alias', 'table_identifier', 'action',
+        ], [
+            'allowMultipleNulls' => true,
+        ]), ['errorField' => 'table_alias']);
 
         return $rules;
     }

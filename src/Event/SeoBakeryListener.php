@@ -12,18 +12,8 @@ class SeoBakeryListener implements EventListenerInterface
 {
     use InstanceConfigTrait;
 
-    protected $_config = [];
-    protected array $_defaultConfig = [];
     protected array $models = [];
     protected array $controllers = [];
-
-    /**
-     * @param array $config
-     */
-    public function __construct(array $config)
-    {
-        $this->setConfig($config);
-    }
 
     public function implementedEvents(): array
     {

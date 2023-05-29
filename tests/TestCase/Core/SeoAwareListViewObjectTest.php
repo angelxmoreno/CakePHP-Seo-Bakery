@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Test\TestCase\Core;
 
 use SeoBakery\Core\SeoAwareInterface;
 use SeoBakery\Core\SeoAwareListViewObject;
-use SeoBakery\Test\SeoObjects\ProductsSeoListView;
+use SeoBakery\Test\SeoObjects\ProductsSeoListViewObject;
 
 class SeoAwareListViewObjectTest extends AbstractSeoAware
 {
@@ -13,7 +14,7 @@ class SeoAwareListViewObjectTest extends AbstractSeoAware
     {
         parent::setUp();
         /** @var SeoAwareListViewObject|SeoAwareInterface $object */
-        $object = new ProductsSeoListView();
+        $object = new ProductsSeoListViewObject();
         $this->object = $object;
     }
 

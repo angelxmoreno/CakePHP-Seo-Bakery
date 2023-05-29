@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery;
@@ -6,7 +7,6 @@ namespace SeoBakery;
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
 use Cake\Core\Configure;
-use Cake\Core\ContainerInterface;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
@@ -110,8 +110,6 @@ class SeoBakeryPlugin extends BasePlugin
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
-        // Add your middlewares here
-
         return $middlewareQueue;
     }
 
@@ -123,22 +121,6 @@ class SeoBakeryPlugin extends BasePlugin
      */
     public function console(CommandCollection $commands): CommandCollection
     {
-        // Add your commands here
-
-        $commands = parent::console($commands);
-
-        return $commands;
-    }
-
-    /**
-     * Register application container services.
-     *
-     * @param ContainerInterface $container The Container to update.
-     * @return void
-     * @link https://book.cakephp.org/4/en/development/dependency-injection.html#dependency-injection
-     */
-    public function services(ContainerInterface $container): void
-    {
-        // Add your services here
+        return parent::console($commands);
     }
 }

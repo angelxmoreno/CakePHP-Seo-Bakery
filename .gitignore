@@ -9,3 +9,4 @@
 docs/build
 webroot/coverage
 coverage.xml
+node_modules

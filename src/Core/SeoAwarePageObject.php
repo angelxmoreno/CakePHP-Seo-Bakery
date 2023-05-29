@@ -54,7 +54,9 @@ abstract class SeoAwarePageObject implements SeoAwareInterface
 
     public function buildUrl(string $action): string
     {
-        $url = $this->getPrefixPluginControllerArray() + ['action' => 'display'] + explode('/', $this->getTemplateName());
+        $url = $this->getPrefixPluginControllerArray() +
+            ['action' => 'display'] +
+            explode('/', $this->getTemplateName());
 
         return Router::url($url);
     }

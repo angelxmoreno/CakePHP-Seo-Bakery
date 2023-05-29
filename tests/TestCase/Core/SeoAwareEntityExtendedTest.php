@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Test\TestCase\Core;
@@ -25,7 +26,10 @@ class SeoAwareEntityExtendedTest extends SeoAwareEntityWrapperTest
 
     public function testBuildMetaDescriptionFallback(): void
     {
-        $this->assertSame('Extended ' . $this->data['description'], $this->object->buildMetaDescriptionFallback('view'));
+        $this->assertSame(
+            'Extended ' . $this->data['description'],
+            $this->object->buildMetaDescriptionFallback('view')
+        );
     }
 
     public function testBuildMetaKeywordsFallback(): void

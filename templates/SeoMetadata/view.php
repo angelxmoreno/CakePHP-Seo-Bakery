@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var AppView $this
  * @var SeoMetadata $seoMetadata

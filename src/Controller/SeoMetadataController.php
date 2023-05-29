@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Controller;
@@ -43,11 +44,11 @@ class SeoMetadataController extends AppController
 
         $optimized = $this->getRequest()->getQuery('optimized', false);
         if (in_array($optimized, ['True', 'False'])) {
-            $is = $optimized === 'True' ? 'IS NOT' : 'IS';
+            $suffix = $optimized === 'True' ? 'IS NOT' : 'IS';
             $query->where([
-                'canonical ' . $is => null,
-                'meta_title ' . $is => null,
-                'meta_description ' . $is => null,
+                'canonical ' . $suffix => null,
+                'meta_title ' . $suffix => null,
+                'meta_description ' . $suffix => null,
             ]);
         }
 
@@ -58,8 +59,8 @@ class SeoMetadataController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Seo Metadata id.
-     * @return Response|null|void Renders view
+     * @param string|null|mixed $id Seo Metadata id.
+     * @return void Renders view
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
@@ -85,7 +86,10 @@ class SeoMetadataController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
-            $data['meta_keywords'] = is_string($data['meta_keywords']) ? explode(',', $data['meta_keywords']) : $data['meta_keywords'];
+            $data['meta_keywords'] = is_string($data['meta_keywords'])
+                ? explode(',', $data['meta_keywords'])
+                : $data['meta_keywords'];
+
             $seoMetadata = $this->SeoMetadata->patchEntity($seoMetadata, $data);
             if ($this->SeoMetadata->save($seoMetadata)) {
                 $this->Flash->success(__('The seo metadata has been saved.'));
@@ -108,11 +112,9 @@ class SeoMetadataController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $seoMetadata = $this->SeoMetadata->get($id);
-        if ($this->SeoMetadata->delete($seoMetadata)) {
-            $this->Flash->success(__('The seo metadata has been deleted.'));
-        } else {
-            $this->Flash->error(__('The seo metadata could not be deleted. Please, try again.'));
-        }
+        $this->SeoMetadata->delete($seoMetadata)
+            ? $this->Flash->success(__('The seo metadata has been deleted.'))
+            : $this->Flash->error(__('The seo metadata could not be deleted. Please, try again.'));
 
         return $this->redirect(['action' => 'index']);
     }

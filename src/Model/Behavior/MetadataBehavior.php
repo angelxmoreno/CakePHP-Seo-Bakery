@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Model\Behavior;
@@ -89,14 +90,12 @@ class MetadataBehavior extends Behavior
             'action' => $action,
         ];
         $exists = $this->getSeoMetadataTable()->exists($lookUp);
-        if (!$exists) return null;
+        if (!$exists) {
+            return null;
+        }
 
         $identifierFunc = $this->getConfig('identifierFunc');
-        if (is_callable($identifierFunc)) {
-            $tableIdentifier = $identifierFunc($pass, $action);
-        } else {
-            $tableIdentifier = $pass[$identifierFunc];
-        }
+        $tableIdentifier = is_callable($identifierFunc) ? $identifierFunc($pass, $action) : $pass[$identifierFunc];
         $lookUp['table_identifier'] = $tableIdentifier;
         return $this->getSeoMetadataTable()->find()->where($lookUp)->first();
     }

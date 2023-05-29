@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SeoBakery\Command;
@@ -27,8 +28,6 @@ class BackFillSeoMetadataCommand extends Command
 {
     use InstanceConfigTrait;
 
-    protected array $_defaultConfig = [];
-
     public static function defaultName(): string
     {
         return 'seo:backfill';
@@ -52,7 +51,7 @@ class BackFillSeoMetadataCommand extends Command
         $parser = parent::buildOptionParser($parser);
         $tableAliases = array_keys($this->getConfig('behaviorConfigs'));
         $tableAliases[] = 'all';
-
+        $parser->setDescription('Creates SeoMetadata entries for entities');
         $parser->addArgument('tableAlias', [
             'help' => 'The table alias of a registered model or all.',
             'required' => true,
@@ -97,17 +96,17 @@ class BackFillSeoMetadataCommand extends Command
     protected function main()
     {
         $tableAlias = $this->args->getArgument('tableAlias');
-        if ($tableAlias === 'all') {
-            $this->backFillAll();
-        } else {
-            $this->backFillModel($tableAlias);
-        }
+        $tableAlias === 'all'
+            ? $this->backFillAll()
+            : $this->backFillModel($tableAlias);
     }
 
     protected function backFillAll()
     {
         $tableAliases = array_keys($this->getConfig('behaviorConfigs'));
-        foreach ($tableAliases as $tableAlias) $this->backFillModel($tableAlias);
+        foreach ($tableAliases as $tableAlias) {
+            $this->backFillModel($tableAlias);
+        }
     }
 
     protected function backFillModel(string $tableAlias)
@@ -129,12 +128,12 @@ class BackFillSeoMetadataCommand extends Command
             $results = $query->cleanCopy()->page($page, $limit);
             foreach ($results as $index => $result) {
                 $this->io->out("\t" . sprintf(
-                        'Processing %s %s of %s: "%s"',
-                        $tableAlias,
-                        Number::format((($page - 1) * $limit) + $index + 1),
-                        Number::format($count),
-                        $result->get($table->getDisplayField())
-                    ));
+                    'Processing %s %s of %s: "%s"',
+                    $tableAlias,
+                    Number::format((($page - 1) * $limit) + $index + 1),
+                    Number::format($count),
+                    $result->get($table->getDisplayField())
+                ));
                 $table->buildMetadataActions($result);
             }
         }
